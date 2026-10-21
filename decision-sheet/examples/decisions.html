@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Open Questions — Example Sheet</title>
+<style>
+:root{
+  --paper:#F5F3ED; --panel:#FBFAF6; --panel-raised:#FFFFFF; --sidebar:#EEEBE3;
+  --ink:#2A2824; --ink-muted:#7A756B; --ink-faint:#A39E92;
+  --border:#E3DFD4; --border-strong:#D6D1C4;
+  --terracotta:#BE5B3E; --terracotta-hover:#A84D33;
+  --green:#2E8B6F; --blue:#3E7CB1; --amber:#C98A2E;
+  --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,monospace;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#191814; --panel:#201E1A; --panel-raised:#262420; --sidebar:#1C1B17;
+    --ink:#EDEAE1; --ink-muted:#A8A294; --ink-faint:#7C7568;
+    --border:#332F28; --border-strong:#413C33;
+    --terracotta:#D97757; --terracotta-hover:#E88A6B;
+    --green:#4FB894; --blue:#6BA3D6; --amber:#E0A94E;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#191814; --panel:#201E1A; --panel-raised:#262420; --sidebar:#1C1B17;
+  --ink:#EDEAE1; --ink-muted:#A8A294; --ink-faint:#7C7568;
+  --border:#332F28; --border-strong:#413C33;
+  --terracotta:#D97757; --terracotta-hover:#E88A6B;
+  --green:#4FB894; --blue:#6BA3D6; --amber:#E0A94E;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.55;-webkit-text-size-adjust:100%}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 16px 96px}
+.wrap{max-width:1040px;margin:0 auto;padding:32px 16px 96px}
+header.top{border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:22px}
+h1{font-family:var(--serif);font-size:29px;margin:0 0 6px}
+.sub{color:var(--ink-muted);font-size:14px;margin:0}
+.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 0}
+button{font:inherit;font-size:13px;padding:7px 13px;border-radius:8px;border:1px solid var(--border-strong);background:var(--panel-raised);color:var(--ink);cursor:pointer}
+button:hover{border-color:var(--terracotta);color:var(--terracotta)}
+button.primary{background:var(--terracotta);border-color:var(--terracotta);color:#fff}
+button.primary:hover{background:var(--terracotta-hover);color:#fff}
+h2{font-family:var(--serif);font-size:21px;margin:32px 0 4px}
+h3{font-family:var(--serif);font-size:17px;margin:22px 0 6px}
+.section-note{color:var(--ink-muted);font-size:13.5px;margin:0 0 14px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px;margin:0 0 14px}
+.card.rec{border-left:3px solid var(--green)}
+.card.warn{border-left:3px solid var(--amber)}
+.card.flag{border-left:3px solid var(--terracotta)}
+.card-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:4px}
+.id{font-family:var(--mono);font-size:12px;color:var(--ink-faint)}
+.title{font-weight:650;font-size:16px}
+.chip{font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;border:1px solid var(--border-strong);color:var(--ink-muted);white-space:nowrap}
+.chip.ok{color:var(--green);border-color:var(--green)}
+.chip.warn{color:var(--amber);border-color:var(--amber)}
+.chip.flag{color:var(--terracotta);border-color:var(--terracotta)}
+h4{margin:13px 0 4px;font-size:12px;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-faint)}
+p{margin:6px 0}
+pre{background:var(--panel-raised);border:1px solid var(--border);border-radius:8px;padding:11px 13px;overflow-x:auto;font-family:var(--mono);font-size:12.5px;line-height:1.5;margin:6px 0}
+code{font-family:var(--mono);font-size:.92em;background:var(--sidebar);border:1px solid var(--border);border-radius:4px;padding:1px 4px}
+pre code{background:none;border:0;padding:0}
+.opts{margin-top:10px;border-top:1px dashed var(--border-strong);padding-top:10px}
+label.opt{display:flex;gap:10px;align-items:flex-start;padding:6px 9px;border-radius:8px;cursor:pointer}
+label.opt:hover{background:var(--sidebar)}
+label.opt input{margin-top:4px;accent-color:var(--terracotta);flex:none}
+.opt-title{font-weight:600}
+.opt-why{color:var(--ink-muted);font-size:13.5px}
+.mine{font-size:11px;color:var(--green);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-left:6px}
+.note{background:var(--sidebar);border:1px solid var(--border);border-left:3px solid var(--blue);border-radius:8px;padding:10px 12px;margin:10px 0;font-size:13.5px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0}
+th,td{border:1px solid var(--border);padding:6px 9px;text-align:left;vertical-align:top}
+th{background:var(--sidebar);font-size:12px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-muted);font-weight:600}
+.rule{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:start;padding:9px 10px;border:1px solid var(--border);border-radius:9px;margin:7px 0;background:var(--panel-raised)}
+.rule .txt{min-width:0}
+.rule .why{color:var(--ink-muted);font-size:13px;margin-top:3px}
+.rule select{font:inherit;font-size:13px;padding:5px 8px;border-radius:7px;border:1px solid var(--border-strong);background:var(--panel);color:var(--ink);max-width:230px}
+.tools{font-size:13px;color:var(--ink-muted);margin:4px 0 10px}
+.out{width:100%;min-height:170px;font-family:var(--mono);font-size:12.5px;padding:11px;border-radius:8px;border:1px solid var(--border-strong);background:var(--panel-raised);color:var(--ink)}
+footer{margin-top:36px;padding-top:14px;border-top:1px solid var(--border);color:var(--ink-faint);font-size:12.5px}
+@media(max-width:620px){.wrap{padding:20px 16px 72px}h1{font-size:23px}.rule{grid-template-columns:1fr}}
+#flash{margin:10px 0 0;padding:7px 11px;border-radius:8px;border:1px solid var(--green);color:var(--green);font-size:13px;background:var(--panel-raised)}
+textarea.other{width:100%;font:inherit;font-size:13.5px;padding:8px 10px;margin:4px 0 2px;border-radius:8px;border:1px solid var(--border-strong);background:var(--panel-raised);color:var(--ink);resize:vertical}
+textarea.other:focus{outline:none;border-color:var(--terracotta)}
+.rule textarea.other{grid-column:1/-1;max-width:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="top">
+  <h1>Open Questions — Example Sheet</h1>
+  <p class="sub">A worked example of the format: three decisions I made on your behalf, each with the authored text it came from and what I would answer.</p>
+  <div class="toolbar">
+    <button class="primary" onclick="collect()">Copy my decisions</button>
+    <button onclick="download()">Download answers file</button>
+    <button onclick="acceptAll()">Accept every recommendation</button>
+    <button onclick="toggleTheme()">Light / dark</button>
+    <button onclick="clearAll()">Clear</button>
+  </div>
+  <p id="flash" hidden></p>
+</header>
+
+<h2>1. Decisions with real consequences</h2>
+
+<p class="section-note">A stable code is immutable once issued and there is no rename operation, so a wrong code is permanent until someone builds one. That is why these are worth two minutes now.</p>
+
+<div class="card rec" data-item="CODE-1">
+  <div class="card-head"><span class="id">CODE-1</span><span class="title">Sourcing, Attendance, Overtime — reused, not minted</span><span class="chip rec">No action</span></div>
+  <p>Three entries already had codes elsewhere in the corpus, so nothing new was invented:</p>
+  <pre><code>SOP_MANPOWER_REQUEST.md:31
+- **Sourcing &amp; Screening Kandidat** — `HR/SOURCING-SCREENING`; jalur lanjutan setelah permintaan disetujui.
+- **Absensi &amp; Rekap Kehadiran** — `HR/ATTENDANCE-RECAP`; sumber tunggal hari kerja dan ketidakhadiran.</code></pre>
+  <p>Listed for completeness only — a card with no options records a decision without asking for one.</p>
+</div>
+
+<div class="card flag" data-item="CODE-3">
+  <div class="card-head"><span class="id">CODE-3</span><span class="title">Rekap Performance Kuartal is procedure P12 of the same FLOW</span><span class="chip flag">Likely wrong data</span></div>
+  <h4>Related Flow says</h4>
+  <pre><code>SOP_PROJECT_MONITORING_final.md:29
+- **Rekap Performance Kuartal** — `SATGAS/QUARTERLY-PERFORMANCE-RECAP`; konsolidasi SCORE per role menjadi dasar keputusan SDM CEO.</code></pre>
+  <h4>But the same document already runs it</h4>
+  <pre><code>SOP_PROJECT_MONITORING_final.md:180
+### P12 · INA Recap Quarterly Performance &amp; Report to CEO — *Owner: INA*
+12.3 Menyusun rekap performance per role.
+12.4 Menyerahkan rekap performance kuartalan kepada CEO.</code></pre>
+  <p>A FLOW listing itself as a related FLOW is a loop. Related Flow becomes derived from link sets, so this entry would be generated as a self-reference and then filtered out by hand.</p>
+  <div class="opts">
+    <label class="opt"><input type="radio" name="CODE-3" value="remove"><span><span class="opt-title">Remove the entry; P12 already is the quarterly recap<span class="mine">my answer</span></span><span class="opt-why">No code is minted, and the corpus loses a self-reference it cannot derive.</span></span></label>
+    <label class="opt"><input type="radio" name="CODE-3" value="keep"><span><span class="opt-title">Keep it — a separate quarterly recap SOP exists outside this document</span><span class="opt-why">Then the code stays and that SOP is authored later. Tell me its real name and I keep the mint.</span></span></label>
+    <label class="opt"><input type="radio" name="CODE-3" value="__other"><span><span class="opt-title">Something else — I will say what</span><span class="opt-why">None of the above, or the right answer needs a conversation. Type it here, or leave it blank and tell me in chat.</span></span></label>
+    <textarea class="other" data-other="CODE-3" rows="2" hidden placeholder="Your answer, or a question back to me."></textarea>
+  </div>
+</div>
+
+<div class="note"><b>Block types available:</b> <code>card</code> (a full decision), <code>rules</code> (a run of one-line <code>&lt;select&gt;</code> rows), <code>note</code>, <code>text</code>, and <code>html</code> for anything the schema does not cover.</div>
+
+<h2>2. Repeated small decisions</h2>
+
+<p class="section-note">Eighteen near-identical choices are unreadable as eighteen cards. One line each, one dropdown each, grouped by source document.</p>
+
+<h3>SOP_RESIGNATION.md</h3>
+<p class="tools">Tools: TL1 Google DRIVE · TL2 Google DOCS · TL3 Google SHEET · TL4 HRIS · TL5 WhatsApp</p>
+<div class="rule"><div class="txt">Tanggal efektif final hanya ditetapkan HOH pada P4.<div class="why">Authority rule. Names a procedure, not a tool.</div></div>
+  <select data-rule="R-RES-1"><option value="">choose…</option><option value="outside">keep outside — my answer</option><option value="TL3">attach to TL3 Google SHEET</option><option value="TL4">attach to TL4 HRIS</option><option value="__other">something else — I will say what</option></select>
+  <textarea class="other" data-other="R-RES-1" rows="2" hidden placeholder="Your answer, or a question back to me."></textarea></div>
+<div class="rule"><div class="txt">Akses sistem ditarik tepat pada tanggal efektif, tidak lebih awal dan tidak lebih lambat.<div class="why">The system it revokes access to is not in this FLOW&#x27;s tool list; ITS is a role.</div></div>
+  <select data-rule="R-RES-2"><option value="">choose…</option><option value="outside">keep outside — my answer</option><option value="TL4">attach to TL4 HRIS</option><option value="__other">something else — I will say what</option></select>
+  <textarea class="other" data-other="R-RES-2" rows="2" hidden placeholder="Your answer, or a question back to me."></textarea></div>
+
+<h2>Anything I did not ask about</h2>
+<div class="card">
+  <p class="section-note">Questions back at me, a decision this sheet missed, or context that changes several answers at once. It travels with the export.</p>
+  <textarea class="other" id="notes" rows="3" placeholder="Free text. Nothing here has to fit an option."></textarea>
+</div>
+
+<h2>Your answers</h2>
+<div class="card">
+  <p class="section-note">Kept in this browser only. Press <b>Copy my decisions</b> and paste back into the session, or <b>Download answers file</b> and tell me where it landed.</p>
+  <textarea class="out" id="out" readonly placeholder="Nothing selected yet."></textarea>
+  <div class="toolbar"><button class="primary" onclick="collect()">Copy my decisions</button><button onclick="download()">Download answers file</button></div>
+</div>
+
+<footer>
+  Source documents: &lt;code&gt;docs/example-data/&lt;/code&gt;. This page is the skill&#x27;s worked example; replace every block with your own.
+</footer>
+
+</div>
+<script>
+const KEY="example-decision-sheet-2026-09-21";
+const TITLE="Open Questions \u2014 Example Sheet";
+const FILENAME="example-answers.md";
+/* decision-sheet runtime — no dependencies, works from file://
+   Contract with the generated markup:
+     [data-item]                 one decision card, attribute is the stable ID
+     [data-item] .title          card title, used in the export
+     label.opt input[type=radio] one option; name === the card ID
+     label.opt .opt-title        option label, used in the export
+     label.opt .mine             marks the recommended option
+     select[data-rule]           one-line rule row; attribute is the stable ID
+     .rule .txt                  rule text, first text node is the rule itself
+     textarea[data-other]        free text for the "something else" answer of that ID
+     #notes                      free text that belongs to no single item
+   Answers live in localStorage under KEY and never leave the browser. */
+
+const OTHER = '__other';
+const state = load();
+
+function load() {
+  try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch { return {}; }
+}
+
+function save(s) {
+  try { localStorage.setItem(KEY, JSON.stringify(s)); } catch {}
+}
+
+function otherBox(id) {
+  return document.querySelector(`textarea[data-other="${CSS.escape(id)}"]`);
+}
+
+function syncOther(id, focus) {
+  const box = otherBox(id);
+  if (!box) return;
+  const on = state[id] === OTHER;
+  box.hidden = !on;
+  if (on && focus) box.focus();
+}
+
+for (const input of document.querySelectorAll('input[type=radio]')) {
+  if (state[input.name] === input.value) input.checked = true;
+  input.addEventListener('change', () => {
+    state[input.name] = input.value;
+    save(state);
+    syncOther(input.name, true);
+    render();
+  });
+}
+
+for (const sel of document.querySelectorAll('select[data-rule]')) {
+  const id = sel.getAttribute('data-rule');
+  if (state[id]) sel.value = state[id];
+  sel.addEventListener('change', () => {
+    state[id] = sel.value;
+    save(state);
+    syncOther(id, true);
+    render();
+  });
+}
+
+for (const box of document.querySelectorAll('textarea[data-other]')) {
+  const id = box.getAttribute('data-other');
+  if (state[id + ':other']) box.value = state[id + ':other'];
+  syncOther(id, false);
+  box.addEventListener('input', () => { state[id + ':other'] = box.value; save(state); render(); });
+}
+
+const notes = document.getElementById('notes');
+if (notes) {
+  if (state.__notes) notes.value = state.__notes;
+  notes.addEventListener('input', () => { state.__notes = notes.value; save(state); render(); });
+}
+
+function recOf(el) {
+  for (const o of el.querySelectorAll('input[type=radio]'))
+    if (o.closest('label').querySelector('.mine')) return o;
+  return null;
+}
+
+function acceptAll() {
+  for (const card of document.querySelectorAll('[data-item]')) {
+    const rec = recOf(card);
+    if (rec) { rec.checked = true; state[rec.name] = rec.value; syncOther(rec.name, false); }
+  }
+  for (const sel of document.querySelectorAll('select[data-rule]')) {
+    const id = sel.getAttribute('data-rule');
+    for (const o of sel.options)
+      if (o.textContent.includes('my answer')) { sel.value = o.value; state[id] = o.value; syncOther(id, false); }
+  }
+  save(state);
+  render();
+}
+
+function labelOf(input) {
+  return input.closest('label').querySelector('.opt-title').textContent.replace('my answer', '').trim();
+}
+
+/* One line per answer. An OTHER pick reports the typed text, or asks to talk. */
+function answerOf(id, value, label) {
+  if (!value) return '(no answer)';
+  if (value !== OTHER) return label;
+  const typed = (state[id + ':other'] || '').trim();
+  return typed ? 'OTHER — ' + typed.replace(/\n+/g, ' / ') : 'OTHER — will explain in chat';
+}
+
+function answerText() {
+  const lines = [TITLE + ' — answers — ' + new Date().toISOString().slice(0, 10), ''];
+  let unanswered = 0;
+  let discuss = 0;
+
+  for (const card of document.querySelectorAll('[data-item]')) {
+    if (!card.querySelector('input[type=radio]')) continue;
+    const id = card.getAttribute('data-item');
+    const titleEl = card.querySelector('.title');
+    const title = titleEl ? titleEl.textContent.trim() : '';
+    const picked = card.querySelector('input[type=radio]:checked');
+    if (!picked) unanswered++;
+    else if (picked.value === OTHER && !(state[id + ':other'] || '').trim()) discuss++;
+    lines.push(`${id} — ${title}\n    ${answerOf(id, picked && picked.value, picked ? labelOf(picked) : '')}`);
+  }
+
+  const rules = document.querySelectorAll('select[data-rule]');
+  if (rules.length) {
+    lines.push('', 'One-line rows:');
+    for (const sel of rules) {
+      const id = sel.getAttribute('data-rule');
+      const row = sel.closest('.rule');
+      const txt = row ? row.querySelector('.txt').childNodes[0].textContent.trim() : '';
+      const chosen = sel.selectedOptions[0];
+      const value = chosen ? chosen.value : '';
+      if (!value) unanswered++;
+      else if (value === OTHER && !(state[id + ':other'] || '').trim()) discuss++;
+      const label = chosen ? chosen.textContent.replace('— my answer', '').trim() : '';
+      lines.push(`    ${id}: ${answerOf(id, value, label)}  — ${txt.slice(0, 60)}${txt.length > 60 ? '…' : ''}`);
+    }
+  }
+
+  const free = (state.__notes || '').trim();
+  if (free) lines.push('', 'Not asked about:', free);
+  if (unanswered) lines.push('', `${unanswered} item(s) still unanswered.`);
+  if (discuss) lines.push(`${discuss} item(s) marked OTHER with no text — discuss in chat.`);
+  return lines.join('\n');
+}
+
+function render() {
+  const out = document.getElementById('out');
+  if (out) out.value = answerText();
+}
+
+function collect() {
+  render();
+  const out = document.getElementById('out');
+  out.select();
+  let ok = false;
+  try { ok = document.execCommand('copy'); } catch {}
+  if (!ok && navigator.clipboard) navigator.clipboard.writeText(out.value).catch(() => {});
+  flash('Copied. Paste it back into the session.');
+}
+
+function download() {
+  render();
+  const blob = new Blob([answerText()], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = FILENAME;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  flash('Saved ' + FILENAME + ' — tell me where you put it and I will read it.');
+}
+
+function flash(msg) {
+  const el = document.getElementById('flash');
+  if (!el) return;
+  el.textContent = msg;
+  el.hidden = false;
+  clearTimeout(flash.t);
+  flash.t = setTimeout(() => { el.hidden = true; }, 4000);
+}
+
+function clearAll() {
+  for (const k of Object.keys(state)) delete state[k];
+  save(state);
+  for (const i of document.querySelectorAll('input[type=radio]')) i.checked = false;
+  for (const s of document.querySelectorAll('select[data-rule]')) s.value = '';
+  for (const b of document.querySelectorAll('textarea[data-other]')) { b.value = ''; b.hidden = true; }
+  if (notes) notes.value = '';
+  render();
+}
+
+function toggleTheme() {
+  const r = document.documentElement;
+  const dark = matchMedia('(prefers-color-scheme: dark)').matches;
+  const cur = r.getAttribute('data-theme') || (dark ? 'dark' : 'light');
+  r.setAttribute('data-theme', cur === 'dark' ? 'light' : 'dark');
+}
+
+render();
+</script>
+</body>
+</html>

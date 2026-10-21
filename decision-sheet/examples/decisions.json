@@ -1,0 +1,82 @@
+{
+  "title": "Open Questions — Example Sheet",
+  "subtitle": "A worked example of the format: three decisions I made on your behalf, each with the authored text it came from and what I would answer.",
+  "key": "example-decision-sheet-2026-09-21",
+  "answers_filename": "example-answers.md",
+  "footer": "Source documents: <code>docs/example-data/</code>. This page is the skill's worked example; replace every block with your own.",
+  "sections": [
+    {
+      "heading": "1. Decisions with real consequences",
+      "note": "A stable code is immutable once issued and there is no rename operation, so a wrong code is permanent until someone builds one. That is why these are worth two minutes now.",
+      "blocks": [
+        {
+          "type": "card",
+          "id": "CODE-1",
+          "title": "Sourcing, Attendance, Overtime — reused, not minted",
+          "status": "rec",
+          "chip": "No action",
+          "evidence": [
+            { "text": "Three entries already had codes elsewhere in the corpus, so nothing new was invented:" },
+            {
+              "code": "- **Sourcing & Screening Kandidat** — `HR/SOURCING-SCREENING`; jalur lanjutan setelah permintaan disetujui.\n- **Absensi & Rekap Kehadiran** — `HR/ATTENDANCE-RECAP`; sumber tunggal hari kerja dan ketidakhadiran.",
+              "source": "SOP_MANPOWER_REQUEST.md:31"
+            },
+            { "text": "Listed for completeness only — a card with no options records a decision without asking for one." }
+          ]
+        },
+        {
+          "type": "card",
+          "id": "CODE-3",
+          "title": "Rekap Performance Kuartal is procedure P12 of the same FLOW",
+          "status": "flag",
+          "chip": "Likely wrong data",
+          "evidence": [
+            { "label": "Related Flow says", "source": "SOP_PROJECT_MONITORING_final.md:29", "code": "- **Rekap Performance Kuartal** — `SATGAS/QUARTERLY-PERFORMANCE-RECAP`; konsolidasi SCORE per role menjadi dasar keputusan SDM CEO." },
+            { "label": "But the same document already runs it", "source": "SOP_PROJECT_MONITORING_final.md:180", "code": "### P12 · INA Recap Quarterly Performance & Report to CEO — *Owner: INA*\n12.3 Menyusun rekap performance per role.\n12.4 Menyerahkan rekap performance kuartalan kepada CEO." },
+            { "text": "A FLOW listing itself as a related FLOW is a loop. Related Flow becomes derived from link sets, so this entry would be generated as a self-reference and then filtered out by hand." }
+          ],
+          "options": [
+            { "value": "remove", "title": "Remove the entry; P12 already is the quarterly recap", "why": "No code is minted, and the corpus loses a self-reference it cannot derive.", "recommended": true },
+            { "value": "keep", "title": "Keep it — a separate quarterly recap SOP exists outside this document", "why": "Then the code stays and that SOP is authored later. Tell me its real name and I keep the mint." }
+          ]
+        },
+        {
+          "type": "note",
+          "text": "**Block types available:** `card` (a full decision), `rules` (a run of one-line `<select>` rows), `note`, `text`, and `html` for anything the schema does not cover."
+        }
+      ]
+    },
+    {
+      "heading": "2. Repeated small decisions",
+      "note": "Eighteen near-identical choices are unreadable as eighteen cards. One line each, one dropdown each, grouped by source document.",
+      "blocks": [
+        {
+          "type": "rules",
+          "group": "SOP_RESIGNATION.md",
+          "context": "Tools: TL1 Google DRIVE · TL2 Google DOCS · TL3 Google SHEET · TL4 HRIS · TL5 WhatsApp",
+          "items": [
+            {
+              "id": "R-RES-1",
+              "text": "Tanggal efektif final hanya ditetapkan HOH pada P4.",
+              "why": "Authority rule. Names a procedure, not a tool.",
+              "choices": [
+                { "value": "outside", "label": "keep outside", "recommended": true },
+                { "value": "TL3", "label": "attach to TL3 Google SHEET" },
+                { "value": "TL4", "label": "attach to TL4 HRIS" }
+              ]
+            },
+            {
+              "id": "R-RES-2",
+              "text": "Akses sistem ditarik tepat pada tanggal efektif, tidak lebih awal dan tidak lebih lambat.",
+              "why": "The system it revokes access to is not in this FLOW's tool list; ITS is a role.",
+              "choices": [
+                { "value": "outside", "label": "keep outside", "recommended": true },
+                { "value": "TL4", "label": "attach to TL4 HRIS" }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
