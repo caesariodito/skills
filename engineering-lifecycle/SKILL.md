@@ -62,7 +62,12 @@ Complete when all approved slices exist and focused checks pass; missing broader
 
 ## 6. Review actual work
 
-Read `~/.pi/agent/vendor/mattpocock-skills/skills/engineering/code-review/SKILL.md` directly; vendor skill links are intentionally not exposed. For test-first or interface-design questions, read sibling `tdd/SKILL.md` or `codebase-design/SKILL.md` only when needed. Review committed changes against the recorded baseline and include staged, unstaged, and relevant untracked changes. Separate Standards and Spec passes; check security, language/architecture conventions, simplicity, failure handling, and scope. Verify findings against source. Do not treat heuristic smells as mandatory refactors.
+Review committed changes against the recorded baseline and include staged, unstaged, and relevant untracked changes. Use two separate sequential passes in the current session:
+
+- **Standards:** inspect correctness, security, accessibility, language/runtime and architecture conventions, error/resource handling, compatibility, and simplicity against repository rules and configured checks. Prefer local fixes or deletion; abstraction requires demonstrated benefit. A heuristic smell alone is not a defect.
+- **Spec:** map every acceptance criterion to changed behavior and verification; find missing requirements, incorrect failure paths, unintended behavior, and scope creep. Canonical `spec.md` takes precedence over tickets or review views.
+
+Verify each finding against actual source; record severity, path/line, concrete impact, evidence, and smallest correction. Keep findings from both passes distinct. For tests, exercise observable behavior through established boundaries, use independent expected results, and add a focused regression check for non-trivial logic. When using test-first work, prove the relevant test fails before fixing it. For interface changes, preserve repository vocabulary, compare the simplest viable alternative, and introduce seams only for demonstrated variation or complexity. No external skill pack is required.
 
 Record findings and disposition in the spec. Skipped checks and pre-existing failures remain visible.
 
