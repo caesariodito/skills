@@ -7,7 +7,7 @@ description: Ask the user a batch of decisions as a single self-contained HTML p
 
 Turn a batch of open questions into one HTML page the user answers in a single pass, then paste their answers back and apply them.
 
-Use it when three or more decisions are pending. For one or two questions, ask in conversation — a page costs more than it saves.
+Use it when three or more decisions are pending. For one or two questions, use the current harness's structured question tool when available; otherwise ask in conversation. A page costs more than it saves.
 
 ## Why the page works
 
@@ -16,7 +16,7 @@ The user answers twenty items in one sitting only when each item shows, side by 
 ## Steps
 
 1. **Collect the decisions.** For each one, find the authored source — the real file, line, SQL, or code — and quote it. If you cannot quote a source, the item is not ready to ask.
-2. **Write `decisions.json`.** Read `reference/schema.md` for the shape. Put it next to the output page, and keep it: the next round starts from a copy.
+2. **Write `decisions.json`.** Read `reference/schema.md` for the shape. Follow applicable artifact policy; default to ignored `.scratch/decisions/<round>/` in the repository. Outside a repository, ask for an output directory. Put JSON next to the output page, and keep it: the next round starts from a copy.
    - Give every item a stable ID (`B1`, `CODE-3`, `R-PAY-2`). The user pastes IDs back, so they must survive into the transcript.
    - Give every card 2–4 options. Each option's `why` states its consequence, not a restatement of its label.
    - Do not write an "other" option yourself. Every card and every row gets one automatically, with a text box; write only the options you actually predict. Set `"other": false` on the rare item whose choice really is closed.
@@ -26,7 +26,9 @@ The user answers twenty items in one sitting only when each item shows, side by 
 3. **Build.**
    ```sh
    # <skill-dir> = directory containing the decision-sheet SKILL.md
-   python3 <skill-dir>/scripts/build.py decisions.json docs/html/open-questions-YYYY-MM-DD.html
+   python3 <skill-dir>/scripts/build.py \
+     .scratch/decisions/<round>/decisions.json \
+     .scratch/decisions/<round>/open-questions-YYYY-MM-DD.html
    ```
    The script inlines the CSS and JS, and fails on duplicate IDs or a card with two recommendations.
 4. **Hand it over.** Give the absolute path and say it opens directly in a browser — no server. Tell the user they can press `Accept every recommendation` and then change only what they disagree with.

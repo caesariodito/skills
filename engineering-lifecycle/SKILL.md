@@ -1,0 +1,83 @@
+---
+name: engineering-lifecycle
+description: "Run long-running, complex, or consequential engineering work through planning, canonical spec.md, dry-run review, feedback, implementation, review, fixes, and re-review. Use before implementation when work spans dependent changes or affects contracts, persistent data, architecture, trust boundaries, concurrency, or recovery. Small low-risk edits stay direct."
+---
+
+# Engineering lifecycle
+
+Work directly in the current session. Separate sequential passes share context; never describe them as independent review. Herdr delegation requires an explicit request and the `herdr` skill; it does not replace this lifecycle.
+
+## 1. Plan from evidence
+
+Inspect applicable instructions, existing code, manifests, checks, CI, relevant ADRs, and supported runtime. Identify scope, dependencies, risks, and cheapest verification. Use relevant language guidance from `~/.pi/agent/skills/project-init/references/`; preserve repository architecture and frontend design system.
+
+Keep a short task list. Prefer deletion, stdlib, native platform, and installed dependencies. Skip this document workflow for small, low-risk, well-understood changes; still test and inspect their diff.
+
+Complete when scope, applicable conventions, proposed sequence, and verification are known.
+
+## 2. Write canonical spec.md
+
+Use existing tracked specification convention; otherwise `docs/specs/<feature>/spec.md`. Update an existing matching spec instead of creating another authority. Outside a repository, ask for an output directory. Keep generated review pages and temporary evidence in ignored `.scratch/<feature>/`.
+
+Keep only applicable sections:
+
+- Problem, goal, scope, and explicit non-goals.
+- Numbered, observable acceptance criteria and relevant failure cases.
+- Current constraints and evidence: source paths, contracts, runtime, ADRs.
+- Plan: smallest coherent slices and affected areas.
+- Consequential decisions: constraint/evidence, simplest viable choice, meaningful alternative, accepted trade-off, failure outcome, and revisit trigger.
+- Contracts, data invariants, trust boundaries, concurrency/recovery, rollout/rollback only where affected.
+- Verification commands mapped to acceptance criteria; frontend accessibility and design-system checks when applicable.
+- Open questions, review feedback/disposition, approval, current stage, and evidence of completion.
+
+Mark assumptions. Reuse established test boundaries without asking; escalate new boundaries only when consequential. No story-count targets, speculative infrastructure, or ADR ceremony for routine choices.
+
+Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those views derive from this spec; feedback updates this file first.
+
+Complete when every requirement has acceptance criteria and planned verification, and unresolved implementation blockers are explicit.
+
+## 3. Dry-run review before implementation
+
+Review the proposed change against actual code and configuration without applying implementation changes or mutating external systems. Trace happy paths and failures; check compatibility, data integrity, security, accessibility, design-system reuse, dependencies, rollback, and test feasibility. Check whether deletion or a smaller change meets the goal.
+
+Record actionable findings and supporting paths in `spec.md`. A dry-run is code-grounded reasoning plus safe inspections, not a claim that unrun tests passed. Run safe validation only when useful.
+
+Complete when proposed slices are feasible and every blocking finding is resolved or presented for user decision.
+
+## 4. Apply feedback and approve
+
+Present a concise spec path, decisions, dry-run findings, and remaining blockers. Obtain explicit approval of the spec before implementing complex work. A request to audit, plan, or write a spec is not implementation approval.
+
+Apply feedback to `spec.md` first. Material scope, contract, risk, or design changes return to dry-run review and renewed approval. Reuse settled decisions; do not repeat the interview. Record approval with the scope it covers.
+
+Complete when the current spec is approved and no implementation-blocking questions remain.
+
+## 5. Implement approved slices
+
+Capture baseline Git status and pre-existing edits. Make the smallest coherent diff; retain one writer per checkout. Use established tests/tooling and focused regression checks. No new dependencies without approval. Do not commit, publish, merge, or deploy without authority.
+
+If evidence invalidates the approved design, stop affected work, update the spec, and return to review/approval. Ordinary local corrections within approved scope need no new ceremony.
+
+Complete when all approved slices exist and focused checks pass; missing broader checks remain open.
+
+## 6. Review actual work
+
+Read `~/.pi/agent/vendor/mattpocock-skills/skills/engineering/code-review/SKILL.md` directly; vendor skill links are intentionally not exposed. For test-first or interface-design questions, read sibling `tdd/SKILL.md` or `codebase-design/SKILL.md` only when needed. Review committed changes against the recorded baseline and include staged, unstaged, and relevant untracked changes. Separate Standards and Spec passes; check security, language/architecture conventions, simplicity, failure handling, and scope. Verify findings against source. Do not treat heuristic smells as mandatory refactors.
+
+Record findings and disposition in the spec. Skipped checks and pre-existing failures remain visible.
+
+Complete when the full intended diff and each acceptance criterion have been reviewed.
+
+## 7. Fix and re-review
+
+Fix actionable findings within approved scope, run focused checks, then review the changed areas and their interactions again. Run required broader checks before completion. Repeat until no blocking findings remain; document justified nonblocking deferrals.
+
+If the same blocker survives two fix rounds, stop and report evidence plus next decision instead of looping indefinitely. Scope/design changes return to the spec and approval gate. This stop condition never permits marking partial work done.
+
+Complete when fixes pass checks and re-review finds no unresolved blocking issue.
+
+## 8. Done with evidence
+
+Update `spec.md` with final stage, acceptance evidence, commands/results, review disposition, and residual risks. Mark done only when all acceptance criteria are verified, required checks passed, and blocking findings are resolved. If verification is unavailable or required checks fail, leave blocked/in progress and say what is missing.
+
+Report changed paths and verification concisely. Later business-outcome measurements do not block delivery unless explicitly part of acceptance. Preserve optional view status semantics; workflow done is not proof that later outcomes were measured.

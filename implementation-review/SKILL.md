@@ -1,17 +1,21 @@
 ---
 name: implementation-review
-description: Draft or update concise implementation plans as self-contained HTML review pages covering business context, goals with a verifiable definition of done, workstreams, phases, rollout, risks, and browser-answerable plan decisions. Use for delivery plans and pre-code review. Produces the plan alone for copy, styling, configuration values, routine dependency updates, or small local behavior; pairs it with a technical-spec page when work changes contracts, persistent data, architecture, trust boundaries, reliability behavior, or non-trivial processing rules.
+description: "Build optional self-contained HTML delivery-plan review pages for complex human reviews or explicit HTML requests. Derive scope, decisions, acceptance, and sequencing from canonical spec.md. Pair with technical-spec HTML when consequential technical detail needs a separate review view. Small low-risk work needs no page."
 ---
 
 # Implementation review
 
-Turn repository evidence into one durable plan and one browser review page. Chat carries file path and short handoff.
+Turn canonical `spec.md` and repository evidence into an optional browser review page. Load `engineering-lifecycle` for canonical spec location and approval/review gates; this skill only owns the HTML view. Small edits stay direct unless the user requests a page.
+
+## Source authority
+
+`spec.md` owns requirements, decisions, acceptance, and feedback. JSON is renderer input; HTML is a derived review view. Include the canonical spec path in page links. Update the spec first when answers return, then synchronize JSON and rebuild. Never implement from conflicting or stale views; do not add renderer IDs to the spec unless useful for traceability.
 
 ## Steps
 
 1. Inspect project instructions, relevant code, config, deployment files, tests, and existing plans. Every proposed change must have an authored source or be marked as an assumption.
 2. Read [`reference/schema.md`](reference/schema.md). Consult [`reference/template.md`](reference/template.md) when authoring section content; keep the template's section order.
-3. Resolve at most two blocking ambiguities in chat. Put three or more review choices in page.
+3. Resolve only blocking ambiguities or consequential decisions. Use structured questions for one or two choices; put three or more genuine reviewer choices in the requested page. Do not manufacture questions for ordinary implementation details.
 4. Apply the technical-spec trigger below. When it fires, load `technical-spec` and author both documents as a pair; otherwise produce the implementation plan only.
 5. Ensure repository `.scratch/` is ignored before creating artifacts. Write source to `.scratch/<feature-slug>/implementation-plan.json`. Start from [`reference/example.json`](reference/example.json) only for shape; replace every example value.
 6. Build page:
@@ -24,24 +28,10 @@ Turn repository evidence into one durable plan and one browser review page. Chat
 7. When paired, build `technical-spec.json` and `technical-spec.html` using the `technical-spec` skill. Keep both artifacts in the same `.scratch/<feature-slug>/` directory.
 8. Validate every generated page exists, has no external assets or secrets, and opens from `file://`. Smoke-test browser choices and cross-links when browser tooling is available.
 9. Return absolute path for every generated HTML page. Say reviewer can accept recommendations, change exceptions, then paste or download exported answers.
-10. When answers return, handle `OTHER` answers first. Apply stable IDs to owning source document, update affected decisions/questions/phases, bump version and updated date for material changes, add change-log entry, and rebuild affected pages.
-11. When all blocking review choices are resolved and Deliver is approved or invoked, hand the finalized `implementation-plan.json` and, when present, `technical-spec.json` to `delivery-workflow`. Do not implement from these review artifacts directly; Deliver composes and independently reviews `spec.md` and `plan.md` before ticketing and implementation approval.
-
-## Deliver handoff
-
-Treat finalized review sources as authoritative inputs, not parallel contracts:
-
-- `implementation-plan.json` feeds `spec.md` problem, goals, scope, non-goals, and acceptance criteria, plus `plan.md` business context, workstreams, ordering, ownership, rollout, risks, dependencies, and definition of done.
-- `technical-spec.json`, when present, feeds `spec.md` behavior, contracts, data, architecture, trust boundaries, failure handling, security, and technical verification.
-- Exported answers must already be applied to their owning JSON source. HTML pages are review views, not synthesis sources.
-- Preserve stable IDs as references where useful. Resolve conflicts in favor of the owning source and ask the user about unresolved product or architecture decisions.
-- Deliver may ask only for missing or conflicting requirements; it must not repeat settled review questions.
-
-The handoff is ready when source JSON validates, pages are rebuilt, every implementation-blocking question is resolved, and paired plan/spec links pass. This handoff does not authorize implementation.
-
+10. When answers return, handle `OTHER` first. Apply decisions to canonical `spec.md`, then update owning view JSON by stable ID, bump version/date for material changes, log the change, and rebuild. Material changes return to lifecycle dry-run review and approval.
 ## Technical-spec trigger
 
-Generate a paired technical specification when proposed work introduces or materially changes any of these:
+When producing this optional HTML plan, generate a paired technical review view when proposed work introduces or materially changes any of these:
 
 - external or internal contracts;
 - persistent data models, migrations, or source-of-truth behavior;
@@ -50,7 +40,7 @@ Generate a paired technical specification when proposed work introduces or mater
 - concurrency, idempotency, retries, recovery, or capacity ceilings;
 - parsing, matching, versioning, reconciliation, or other non-trivial processing rules.
 
-Produce implementation plan only when change is limited to copy, styling, configuration values, routine dependency updates, or small local behavior that changes none of the items above.
+For an explicitly requested page covering copy, styling, configuration values, routine dependency updates, or small local behavior, produce the plan only. Without an explicit page request, skip HTML ceremony for these changes.
 
 When trigger fires:
 

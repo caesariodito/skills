@@ -1,17 +1,17 @@
 ---
 name: technical-spec
-description: Draft or update deep technical specifications as structured, self-contained HTML pages covering contracts, diagrams, data models, algorithms, examples, failure handling, security, and technical verification. Use when implementation details need review separately from a concise implementation plan.
+description: "Build optional self-contained HTML technical review views from canonical spec.md for complex human reviews or explicit HTML requests. Cover affected contracts, architecture, data, processing, failures, security, and verification separately from delivery-plan HTML."
 ---
 
 # Technical spec
 
-Turn repository evidence into one deep technical contract and one self-contained browser review page. Keep delivery sequencing, business case, staffing, estimates, and rollout ownership in `implementation-review`.
+Turn canonical `spec.md` and repository evidence into a derived technical review page. Load `engineering-lifecycle` for canonical spec location and approval/review gates. The spec remains authoritative; JSON is renderer input and HTML is a review view. Include the canonical spec path in page links. Keep delivery sequencing and rollout ownership in `implementation-review`; link detail rather than duplicating it.
 
 ## Steps
 
 1. Inspect project instructions, relevant code, API/schema docs, runtime config, deployment files, tests, and linked implementation plan. Mark unsupported claims as assumptions.
 2. Read [`reference/schema.md`](reference/schema.md) and [`reference/template.md`](reference/template.md). Preserve fixed section order.
-3. Resolve at most two blocking ambiguities in chat. Put three or more technical choices in page.
+3. Resolve only blocking ambiguities or consequential choices. Use structured questions for one or two choices; put three or more genuine technical choices in the requested page.
 4. Ensure `.scratch/` is ignored when working inside a repository. Write `.scratch/<feature>/technical-spec.json` and preserve stable IDs.
 5. Build:
    ```sh
@@ -22,7 +22,7 @@ Turn repository evidence into one deep technical contract and one self-contained
    ```
 6. Validate page opens from `file://`, contains no external assets or secrets, and links back to implementation plan.
 7. Return absolute HTML path. Reviewer can accept recommendations, change exceptions, then paste or download exported answers.
-8. When answers return, handle `OTHER` first. Apply stable IDs, supersede changed decisions, update examples/contracts, bump version, add change-log entry, and rebuild.
+8. When answers return, handle `OTHER` first. Update canonical `spec.md`, then synchronize view JSON by stable ID, supersede changed decisions, update examples/contracts, bump version, log, and rebuild. Material changes return to lifecycle dry-run review and approval.
 
 ## Ownership boundary
 

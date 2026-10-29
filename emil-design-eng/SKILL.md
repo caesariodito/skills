@@ -5,6 +5,12 @@ description: UI and frontend design guidance from Emil Kowalski covering visual 
 
 # Design Engineering
 
+## Design system first
+
+Inspect existing shared components, design tokens, themes, typography, spacing, interaction patterns, and accessibility primitives before changing UI. Reuse them first and extend minimally. Apply craft guidance below within system constraints; do not override established motion or visual tokens merely to match these examples.
+
+If no design system exists, propose a suitable existing option before bespoke component infrastructure. A small page may need only native HTML/CSS and a few consistent tokens; do not install a library or build a framework without need and dependency approval. Verify keyboard use, focus, reduced motion, contrast, and responsive behavior as applicable.
+
 ## Initial Response
 
 When this skill is first invoked without a specific question, respond only with:
