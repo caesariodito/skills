@@ -42,6 +42,8 @@ Optional top-level fields:
 | `lang` | string | HTML language. Default `en`. |
 | `guides` | object | Authoring guide text keyed by section: `summary`, `business_context`, `goals_scope`, `system_shape`, `modules`, `decisions`, `phases`, `risks_assumptions`, `rollout_rollback`, `observability`, `open_questions`, `change_log`. Hidden until toolbar toggle. |
 
+Optional `links["diagram reference"]` points to derived `./diagrams.md` and appears under sidebar Links. Detailed Mermaid sources remain in Markdown, not this JSON schema.
+
 ## ID registry
 
 Use only these IDs. Every ID belongs to one owning document. The builder rejects unregistered prefixes and malformed IDs everywhere IDs appear: record `id` fields, `affects`, `covers`, `tracks_goal`, and `technical_refs`.

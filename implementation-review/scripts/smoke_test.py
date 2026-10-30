@@ -54,6 +54,22 @@ def main() -> None:
         assert 'data-decision="Q1"' in page
         assert "localStorage.setItem(KEY" in page
         assert "Accept recommendations" in page
+        hero = page.split('<header class="hero">', 1)[1].split('</header>', 1)[0]
+        assert './technical-spec.html' not in hero
+        sidebar = page.split('<main class="content">', 1)[0]
+        assert 'Technical specification</a>' in sidebar and './technical-spec.html' in sidebar
+        with_diagrams = copy.deepcopy(base)
+        with_diagrams['links']['diagram reference'] = './diagrams.md'
+        diagram_source = directory / 'diagrams-plan.json'
+        diagram_source.write_text(json.dumps(with_diagrams))
+        assert run(diagram_source, directory / 'diagrams-plan.html').returncode == 0
+        assert 'href="./diagrams.md"' in (directory / 'diagrams-plan.html').read_text().split('<main class="content">', 1)[0]
+        plan_only = copy.deepcopy(base)
+        plan_only['system_shape'].pop('technical_spec', None)
+        source = directory / 'plan-only.json'
+        source.write_text(json.dumps(plan_only))
+        assert run(source, directory / 'plan-only.html').returncode == 0
+        assert 'Technical specification:' not in (directory / 'plan-only.html').read_text().split('</header>', 1)[0]
 
         dod = lambda s: s["goals_scope"]["definition_of_done"]
         rejected(base, lambda s: s.update(status="review"), "invalid status", directory)

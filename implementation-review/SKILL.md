@@ -11,6 +11,22 @@ Turn canonical `spec.md` and repository evidence into an optional browser review
 
 `spec.md` owns requirements, decisions, acceptance, and feedback. JSON is renderer input; HTML is a derived review view. Include the canonical spec path in page links. Update the spec first when answers return, then synchronize JSON and rebuild. Never implement from conflicting or stale views; do not add renderer IDs to the spec unless useful for traceability.
 
+## Markdown preview
+
+Keep Markdown as source; never author or persist a parallel HTML copy of `spec.md` or other review-workflow Markdown. Use shared local engine (Node stdlib plus `marked` already installed with managed Pi):
+
+```sh
+node ~/.dotfiles/skills/implementation-review/scripts/preview.mjs /absolute/path/to/review-directory
+```
+
+Open the printed localhost URL. `.md` links render on request; refresh shows edits. Preview pages share review-page tokens (`assets/preview.css`), follow system light/dark, list existing review documents under sidebar **Links** with the current page marked, and build **Contents** from H2/H3 with copyable heading anchors; on narrow screens the sidebar collapses. Mermaid diagrams (`assets/preview-diagrams.mjs`) use page theme colors, render at natural size (never upscaled, shrink to 70% before horizontal scroll), and offer a **Full size** viewer. Restart the server after editing these assets. Generated interactive review HTML stays unchanged and also opens from `file://`. No server-side answer storage. Browser answers are origin-specific: export before switching from `file://`, changing port, or stopping a review session. Stop with Ctrl+C.
+
+Serve only a dedicated, non-sensitive review directory, never home or an entire repository. Keep canonical spec inside that directory when convention allows; otherwise create a minimal review directory containing an explicitly refreshed, labeled snapshot of the canonical Markdown and relative-link the snapshot. Record authoritative path and refresh snapshot after feedback; never treat snapshot as editable authority. Do not widen server root or use symlinks to bypass scope. Markdown raw HTML is escaped, images disabled, unsafe links blocked; generated HTML must be trusted renderer output. Missing engine fails explicitly; do not install dependencies silently.
+
+## Diagram reference
+
+For complex relationships, link optional `diagrams.md` authored by `technical-spec` → Detailed diagram reference. Set `links["diagram reference"]` to its relative path; renderer shows reference under sidebar Links. Keep delivery plan concise, never copy detailed diagrams into it. Diagram source derives from canonical spec, contains back-links and source version, and renders live through local preview with pinned local Mermaid. No mandatory diagram checklist or third-page ceremony for small work.
+
 ## Steps
 
 1. Inspect project instructions, relevant code, config, deployment files, tests, and existing plans. Every proposed change must have an authored source or be marked as an assumption.
@@ -27,7 +43,7 @@ Turn canonical `spec.md` and repository evidence into an optional browser review
    ```
 7. When paired, build `technical-spec.json` and `technical-spec.html` using the `technical-spec` skill. Keep both artifacts in the same `.scratch/<feature-slug>/` directory.
 8. Validate every generated page exists, has no external assets or secrets, and opens from `file://`. Smoke-test browser choices and cross-links when browser tooling is available.
-9. Return absolute path for every generated HTML page. Say reviewer can accept recommendations, change exceptions, then paste or download exported answers.
+9. Start the scoped local preview service when handing off browser review pages, using a background process with log/PID under ignored `.scratch/` (or approved output directory outside a repository). Verify HTTP responses before handoff. Give clickable localhost links for implementation review, technical spec, diagrams, and canonical Markdown when present; do not hand off source-file links as browser previews. Include absolute paths only as secondary references. Reuse a verified running service rather than starting duplicates; report how to stop it. Say reviewer can accept recommendations, change exceptions, then paste or download exported answers.
 10. When answers return, handle `OTHER` first. Apply decisions to canonical `spec.md`, then update owning view JSON by stable ID, bump version/date for material changes, log the change, and rebuild. Material changes return to lifecycle dry-run review and approval.
 ## Technical-spec trigger
 
@@ -46,7 +62,7 @@ When trigger fires:
 
 1. Load `technical-spec` before authoring technical content.
 2. Generate paired `.scratch/<feature-slug>/technical-spec.json` and `.scratch/<feature-slug>/technical-spec.html` beside implementation-plan artifacts.
-3. Add bidirectional relative links: implementation plan links to `./technical-spec.html` from `system_shape.technical_spec`; technical spec links to `./implementation-plan.html`.
+3. Add bidirectional relative links: implementation plan links to `./technical-spec.html` from `system_shape.technical_spec`; technical spec links to `./implementation-plan.html`. Place **Technical specification**, **Implementation review**, and other document references under sidebar **Links**, not in page headers. Retain useful contextual deep-links in technical sections. Verify visible labels and destinations.
 4. Reference technical IDs (`TS`, `C`, `CT`, `PR`, `EX`, `TD`, `TQ`; see the ID registry in schema) from workstream `technical_refs` or plan decisions.
 5. Keep technical details out of the implementation plan: diagrams, architecture, contracts, ERD, algorithms, examples, failure handling, security controls, and technical tests. Do not duplicate technical detail between pages.
 
@@ -78,7 +94,8 @@ Prefer deletion, standard library, native platform, and installed dependencies. 
 - structured JSON validates;
 - every template section renders in template order;
 - technical-spec trigger was evaluated explicitly; paired artifacts exist when any trigger condition applies;
-- paired pages use working bidirectional relative links and plan workstreams reference owning technical IDs;
+- paired pages identify each other under sidebar Links, use working bidirectional relative links, and plan workstreams reference owning technical IDs;
+- Markdown previews use shared local engine, preserve authoritative source, and write no Markdown-derived HTML copy;
 - deep technical details live in linked technical spec, not implementation plan;
 - every definition-of-done item has a verifier and is covered by one phase;
 - current phase matches phase table;

@@ -421,7 +421,11 @@ def render_options(item: dict) -> str:
 
 def render_sidebar(spec: dict) -> str:
     reviewers = "".join(f"<li>{inline(item)}</li>" for item in spec["reviewers"]) or '<li class="empty">None</li>'
-    links = "".join(link(label, href) for label, href in spec["links"].items()) or '<span class="empty">None</span>'
+    references = dict(spec["links"])
+    technical = spec["system_shape"].get("technical_spec")
+    if technical:
+        references["Technical specification"] = technical["href"]
+    links = "".join(link(str(label)[:1].upper() + str(label)[1:], href) for label, href in references.items()) or '<span class="empty">None</span>'
     nav = [
         ("summary", "30-second read"), ("business-context", "1. Business context"), ("goals-scope", "2. Goals and done"),
         ("system-shape", "3. System shape"), ("modules", "4. Workstreams"), ("decisions", "5. Key decisions"),

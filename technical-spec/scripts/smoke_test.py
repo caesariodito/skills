@@ -20,6 +20,12 @@ def main():
   assert {i.rstrip('0123456789').rstrip('-') for i in ids}=={'TS','C','CT','PR','EX','TD','TQ'}
   assert 'class="layout"' in page and 'class="sidebar"' in page and 'class="toolbar"' in page
   assert 'id="progress-bar"' in page and 'id="review"' in page
+  masthead=page.split('<header class="masthead">',1)[1].split('</header>',1)[0]
+  assert './implementation-plan.html' not in masthead
+  assert './implementation-plan.html' in page.split('<div class="main">',1)[0]
+  detailed=copy.deepcopy(base);detailed['links'].update({'diagram reference':'./diagrams.md','flow diagrams':'./diagrams.md#sequence','architecture diagrams':'./diagrams.md#deployment','data diagrams':'./diagrams.md#erd'})
+  source=d/'detailed.json';source.write_text(json.dumps(detailed));result=run(source,d/'detailed.html');assert result.returncode==0,result.stderr
+  detail=(d/'detailed.html').read_text();assert 'href="./diagrams.md"' in detail.split('<div class="main">',1)[0];assert detail.count('Detailed diagram reference')==3
   reject(base,lambda s:s.update(status='review'),'invalid status',d)
   reject(base,lambda s:s['flows'][1]['messages'][0].update(to='Unknown'),'endpoint is not a participant',d)
   reject(base,lambda s:s['examples'][0]['rows'][0].pop(),'wrong cell count',d)

@@ -32,7 +32,9 @@ Keep only applicable sections:
 
 Mark assumptions. Reuse established test boundaries without asking; escalate new boundaries only when consequential. No story-count targets, speculative infrastructure, or ADR ceremony for routine choices.
 
-Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those views derive from this spec; feedback updates this file first.
+Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those structured views derive from this spec; feedback updates this file first. For browser reading of Markdown, use the shared local preview engine documented in `~/.dotfiles/skills/implementation-review/SKILL.md` → Markdown preview. Render on request, not into a separate HTML copy; preserve canonical source and serve only a dedicated non-sensitive review directory.
+
+For detailed flows, sequence, ERD, UML-style structure/state, or deployment topology, `technical-spec` may add derived `diagrams.md` rendered through local preview. Generate only relevant views; link spec IDs and assumptions, preserve canonical spec authority, and refresh diagrams after feedback. No separate approval or diagram schema.
 
 Complete when every requirement has acceptance criteria and planned verification, and unresolved implementation blockers are explicit.
 

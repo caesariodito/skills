@@ -49,16 +49,20 @@ Required:
 
 Optional: `key`, `answers_filename`, `lang`, `guides`.
 
+Optional keys inside existing `links`: `diagram reference` links to live-rendered `./diagrams.md` and appears under sidebar Links. `flow diagrams`, `architecture diagrams`, and `data diagrams` add section-specific links, optionally with descriptive heading fragments. These do not introduce a new diagram schema or contract-ID prefixes; Mermaid lives in Markdown source.
+
 ## Overview
 
 ```json
 {
   "purpose": "Technical outcome.",
   "context": "Current technical constraint.",
-  "boundaries": ["In", "Out"],
+  "boundaries": ["In", "Excludes out"],
   "principles": ["Raw-log before parse"]
 }
 ```
+
+Prefix a boundary with `Excludes ` to list it under Excluded; all other boundaries render as Included. An empty side shows "None stated".
 
 ## Typed diagrams
 

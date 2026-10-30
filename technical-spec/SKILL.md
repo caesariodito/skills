@@ -7,6 +7,28 @@ description: "Build optional self-contained HTML technical review views from can
 
 Turn canonical `spec.md` and repository evidence into a derived technical review page. Load `engineering-lifecycle` for canonical spec location and approval/review gates. The spec remains authoritative; JSON is renderer input and HTML is a review view. Include the canonical spec path in page links. Keep delivery sequencing and rollout ownership in `implementation-review`; link detail rather than duplicating it.
 
+## Markdown preview and paired navigation
+
+Follow `../implementation-review/SKILL.md` → **Markdown preview** for the shared local engine and security/snapshot rules. Render Markdown on request; never persist a separately authored Markdown-to-HTML copy. Keep interactive JSON-driven technical review and answer export intact. Both pages must list the other page and all document references under sidebar **Links**. Do not duplicate document navigation in headers. Keep contextual section deep-links.
+
+```sh
+node ~/.dotfiles/skills/implementation-review/scripts/preview.mjs /absolute/path/to/review-directory
+```
+
+Refresh `.md` preview after edits. Export browser answers before changing origin; stop server with Ctrl+C.
+
+## Detailed diagram reference
+
+When relationships, branching, concurrency, data, or topology need more detail than the concise template provides, author optional `diagrams.md` beside review views. Render it with the shared local preview engine; no new JSON schema or Markdown-derived HTML file. Keep simple summaries in this page; link details rather than duplicating them. Do not require a third page or every diagram type for routine work.
+
+Use fenced `mermaid` blocks for relevant types: `flowchart` for paths/architecture, `sequenceDiagram` for ordering and concurrency, `erDiagram` for keys/cardinality, `classDiagram` or `stateDiagram-v2` for UML-style structure/lifecycle. Deployment-style topology uses labeled flowchart subgraphs; do not claim full UML deployment support. Never invent classes, services, or infrastructure to fill a diagram.
+
+Start reference with canonical spec path/version, links back to both reviews, and evidence/assumption status. Each diagram needs a stable descriptive Markdown heading, question answered, related spec/plan IDs, assumptions, and short explanation. Derived diagram anchors are heading slugs, not new contract-ID prefixes. Feedback updates spec first, then diagrams; no separate approvals or answer store.
+
+Add `links["diagram reference"] = "./diagrams.md"` to both JSON views under sidebar Links. Optional technical-section links use existing `links` keys: `flow diagrams`, `architecture diagrams`, `data diagrams`, with heading fragments such as `./diagrams.md#entity-relationships`. Keep bidirectional links and verify every anchor.
+
+Engine uses locally pinned Mermaid, never CDN. Setup when missing: `npm ci --ignore-scripts --prefix ~/.dotfiles/skills/technical-spec`. `package.json` and lockfile pin dependency; do not update/install another dependency without approval. Strict rendering, no HTML labels/click actions/config directives. Render errors or missing engine leave visible warning and source fallback; ordinary Markdown works. Detailed diagrams require localhost preview; `file://` reviews still work but `.md` opens as source.
+
 ## Steps
 
 1. Inspect project instructions, relevant code, API/schema docs, runtime config, deployment files, tests, and linked implementation plan. Mark unsupported claims as assumptions.
@@ -21,7 +43,7 @@ Turn canonical `spec.md` and repository evidence into a derived technical review
      .scratch/<feature>/technical-spec.html
    ```
 6. Validate page opens from `file://`, contains no external assets or secrets, and links back to implementation plan.
-7. Return absolute HTML path. Reviewer can accept recommendations, change exceptions, then paste or download exported answers.
+7. Follow implementation-review browser handoff: start or reuse a verified scoped preview service and give clickable localhost links, including rendered diagrams and canonical spec, not just file paths. Reviewer can accept recommendations, change exceptions, then paste or download exported answers.
 8. When answers return, handle `OTHER` first. Update canonical `spec.md`, then synchronize view JSON by stable ID, supersede changed decisions, update examples/contracts, bump version, log, and rebuild. Material changes return to lifecycle dry-run review and approval.
 
 ## Ownership boundary
@@ -68,10 +90,11 @@ The ID registry in [`../implementation-review/reference/schema.md`](../implement
 Done when:
 
 - JSON validates and all sections render in fixed order;
-- plan cross-link works, and every ID resolves as `technical-spec.html#<ID>`;
+- Implementation review sidebar link works, paired plan sidebar names Technical specification, and every ID resolves as `technical-spec.html#<ID>`;
 - actor handoffs, runtime ordering, data ownership, contracts, processing rules, and failure paths are explicit;
 - examples prove field derivation without personal data;
 - invariants have runnable or planned checks;
 - security and retention boundaries are explicit;
-- HTML is self-contained and secret-free;
+- review HTML is self-contained and secret-free; optional diagram page uses local pinned assets, readable source/error fallback, and no CDN;
+- relevant detailed diagrams have source-version/evidence labels, correct relationships, and working sidebar/section deep-links; Mermaid syntax/render checks pass, or unavailable checks are explicitly reported;
 - answer export updates technical decisions by stable ID.

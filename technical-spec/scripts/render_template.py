@@ -44,6 +44,11 @@ def link(label: object, href: object) -> str:
     return f'<a href="{esc(safe_url(href))}">{inline(label)}</a>'
 
 
+def sentence_case(label: object) -> str:
+    text = str(label)
+    return text[:1].upper() + text[1:]
+
+
 def tag(value: object) -> str:
     css = {
         "draft": "draft",
@@ -181,7 +186,7 @@ def sidebar(spec: dict) -> str:
     for anchor, number, title, count in navigation:
         badge = f'<span class="count" data-count-for="{count}"></span>' if count else ""
         nav_items.append(f'<li><a href="#{anchor}"><span class="n">{number}</span>{title}{badge}</a></li>')
-    links = "".join(f'<li>{link(label, href)}</li>' for label, href in spec["links"].items())
+    links = "".join(f'<li>{link(sentence_case(label), href)}</li>' for label, href in spec["links"].items())
     reviewers = ", ".join(str(value) for value in spec["reviewers"]) or "None"
     return (
         '<aside class="sidebar" id="sidebar" aria-label="Document information and navigation">'
@@ -199,18 +204,23 @@ def render(spec: dict, asset_dir: Path) -> str:
     css = (asset_dir / "spec.css").read_text()
     js = (asset_dir / "spec.js").read_text()
     parts: list[str] = []
+    def diagram_link(key: str) -> str:
+        href = spec["links"].get(key)
+        return f'<p>{link("Detailed diagram reference", href)}</p>' if href else ""
 
     overview = spec["overview"]
     included = [value for value in overview["boundaries"] if not str(value).lower().startswith("excludes")]
-    excluded = [str(value)[8:].strip() for value in overview["boundaries"] if str(value).lower().startswith("excludes")]
+    excluded = [sentence_case(str(value)[8:].strip()) for value in overview["boundaries"] if str(value).lower().startswith("excludes")]
+    def items(values: list) -> str:
+        return "".join(f'<li>{inline(value)}</li>' for value in values) or '<li class="empty">None stated</li>'
     parts.append(
         section(spec, "1", "Overview", "overview", "overview", "Summarize purpose, exclusions, and tie-breaking principles in one screen.")
         + f'<h3 class="sub">Purpose</h3><p>{inline(overview["purpose"])}</p>'
         + f'<h3 class="sub">Current technical context</h3><p>{inline(overview["context"])}</p>'
         + '<h3 class="sub">Boundaries</h3><div class="split"><div class="in"><h4>Included</h4><ul>'
-        + "".join(f'<li>{inline(value)}</li>' for value in included)
+        + items(included)
         + '</ul></div><div class="out"><h4>Excluded</h4><ul>'
-        + "".join(f'<li>{inline(value)}</li>' for value in excluded)
+        + items(excluded)
         + '</ul></div></div><h3 class="sub">Design principles</h3><ul>'
         + "".join(f'<li>{inline(value)}</li>' for value in overview["principles"])
         + f'</ul><p>Delivery sequencing lives in {link("implementation plan", spec["links"].get("implementation plan", "#"))}.</p></section>'
@@ -219,7 +229,7 @@ def render(spec: dict, asset_dir: Path) -> str:
     parts.append(
         section(spec, "2", "Flows and sequences", "flows", "flows", "Use one visual per question: business flow, runtime order, and data transformation.")
         + "".join(flow_figure(diagram) for diagram in spec["flows"])
-        + "</section>"
+        + diagram_link("flow diagrams") + "</section>"
     )
 
     architecture = spec["architecture"]
@@ -227,6 +237,7 @@ def render(spec: dict, asset_dir: Path) -> str:
     port_rows = [[f'<code>{inline(item["name"])}</code>', inline(item["direction"]), inline(", ".join(item["operations"])), inline(item["implemented_by"])] for item in architecture["ports"]]
     parts.append(
         section(spec, "3", "Architecture", "architecture", "architecture", "List responsibility-owning components, dependency direction, and constraints.", architecture["tldr"])
+        + diagram_link("architecture diagrams")
         + f'<h3 class="sub">Components</h3>{table(["ID", "Component", "Responsibility", "Depends on"], component_rows, [str(item["id"]) for item in architecture["components"]])}'
         + f'<h3 class="sub">Ports</h3>{table(["Port", "Direction", "Operations", "Adapter"], port_rows)}'
         + '<h3 class="sub">Constraints</h3><ul>' + "".join(f'<li>{inline(value)}</li>' for value in architecture["constraints"]) + "</ul></section>"
@@ -255,6 +266,7 @@ def render(spec: dict, asset_dir: Path) -> str:
         entity_items.append(f'<details><summary><code>{inline(entity["name"])}</code> <span class="hint">logical entity</span></summary><div class="body">{table(["Field", "Type", "Key", "Null", "Invariant"], rows)}</div></details>')
     parts.append(
         section(spec, "5", "Data model", "data-model", "data_model", "Describe logical truth, not current sheet layout.", model["tldr"])
+        + diagram_link("data diagrams")
         + f'<div class="note"><p>{inline(model.get("note", ""))}</p></div><h3 class="sub">Relationships</h3>'
         + table(["From", "Relationship", "To"], relationship_rows)
         + '<h3 class="sub">Entities</h3>' + "".join(entity_items)

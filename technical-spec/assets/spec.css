@@ -144,6 +144,7 @@ td code{ white-space:nowrap; }
 .split ul{ margin:0; padding-left:1.1rem; }
 .split .in h4{ color:var(--ok); }
 .split .out h4{ color:var(--bad); }
+.split li.empty{ list-style:none; margin-left:-1.1rem; color:var(--ink-3); font-style:italic; }
 
 /* details */
 details{ min-width:0; overflow:hidden; margin:.5rem 0 1rem; border:1px solid var(--line); border-radius:8px; background:var(--surface); }
