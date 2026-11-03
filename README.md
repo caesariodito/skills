@@ -2,6 +2,17 @@
 
 Canonical portable workflows for Pi, Claude Code, and Agent Skills-compatible tools. Each skill owns its procedure; global AGENTS.md keeps safety, approvals, and short routing rules. Machine configuration belongs in [.dotfiles](https://github.com/caesariodito/.dotfiles); server installation belongs in [pi-server-agents](https://github.com/caesariodito/pi-server-agents). Legacy GitHub `.pi` repository is not required. Local `~/.pi` remains Pi runtime state.
 
+## Global Pi guidance
+
+`pi/AGENTS.md` owns portable always-on safety and workflow routing. Machine-specific paths and operations belong in host `~/AGENTS.md`, not this shared file. Pi package installation does **not** activate AGENTS.md automatically. For local authoring, review existing destination before creating link:
+
+```sh
+mkdir -p ~/.pi/agent
+ln -s /absolute/path/to/skills/pi/AGENTS.md ~/.pi/agent/AGENTS.md
+```
+
+Use configured `PI_CODING_AGENT_DIR` instead when applicable. Do not overwrite an existing file/link blindly. Restart Pi or `/reload` afterward. Server installer keeps its server-specific runtime baseline; this opt-in link does not replace host policy automatically.
+
 ## Pi installation
 
 Review source, then install an exact reviewed commit:
