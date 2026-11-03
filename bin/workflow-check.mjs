@@ -31,8 +31,15 @@ for (const name of ['unslop', 'teach', 'architect', 'arena']) {
 }
 for (const path of ['pi/AGENTS.md','pi/references/operations.md','architect/references/design-red-flags.md','architect/references/rationale.md']) checkLinks(path);
 const lifecycle = read('engineering-lifecycle/SKILL.md');
-assert.ok(lifecycle.indexOf('| Explore |') < lifecycle.indexOf('| Specify |'));
-assert.ok(lifecycle.indexOf('| Build and verify |') < lifecycle.indexOf('| Independent review |'));
+function ordered(text, first, next) {
+  const start = text.indexOf(first), end = text.indexOf(next);
+  assert.ok(start >= 0 && end >= 0 && start < end, `${first} must exist before ${next}`);
+}
+for (const [first, next] of [['| Explore |', '| Specify |'], ['| Build and verify |', '| Independent review |']]) {
+  ordered(lifecycle, first, next);
+  assert.throws(() => ordered(lifecycle.replace(first, ''), first, next));
+  assert.throws(() => ordered(lifecycle.replace(next, ''), first, next));
+}
 assert.match(lifecycle, /does not authorize reviewer spawning/);
 assert.match(lifecycle, /Reviewer role itself never triggers another reviewer/);
 const review = read('independent-review/SKILL.md');
