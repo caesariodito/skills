@@ -6,6 +6,7 @@ import { homedir } from 'node:os';
 import { extname, isAbsolute, relative, resolve, sep } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { randomBytes } from 'node:crypto';
+import { createRequire } from 'node:module';
 
 const MAX_BYTES = 2 * 1024 * 1024;
 const MERMAID_DIST = resolve(import.meta.dirname, '../../technical-spec/node_modules/mermaid/dist');
@@ -23,9 +24,17 @@ const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', 
 
 async function markdownEngine() {
   const install = resolve(homedir(), '.pi/agent/install');
-  const version = (await readFile(resolve(install, 'current-version'), 'utf8')).trim();
-  if (!/^[\w.-]+$/.test(version)) throw new Error('Invalid managed Pi version');
-  const { Marked } = await import(pathToFileURL(resolve(install, 'releases', version, 'node_modules/marked/lib/marked.esm.js')).href);
+  let engine;
+  try {
+    const version = (await readFile(resolve(install, 'current-version'), 'utf8')).trim();
+    if (!/^[\w.-]+$/.test(version)) throw new Error('Invalid managed Pi version');
+    engine = resolve(install, 'releases', version, 'node_modules/marked/lib/marked.esm.js');
+    await stat(engine);
+  } catch {
+    const require = createRequire(resolve(process.execPath, '../../lib/node_modules/@earendil-works/pi-coding-agent/package.json'));
+    engine = require.resolve('marked');
+  }
+  const { Marked } = await import(pathToFileURL(engine).href);
   // Parsing is synchronous, so per-document outline state is safe between requests.
   let outline, slugs, section;
   const marked = new Marked({ renderer: {

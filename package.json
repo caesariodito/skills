@@ -1,0 +1,14 @@
+{
+  "name": "caesariodito-skills",
+  "version": "1.0.0",
+  "private": true,
+  "keywords": ["pi-package"],
+  "pi": {
+    "skills": [
+      "./9router", "./9router-web-fetch", "./9router-web-search",
+      "./anti-slop-init", "./decision-sheet", "./emil-design-eng",
+      "./engineering-lifecycle", "./html-test-cases", "./implementation-review",
+      "./project-init", "./security-audit", "./server-operations", "./technical-spec"
+    ]
+  }
+}

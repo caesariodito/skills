@@ -1,13 +1,13 @@
 ---
 name: decision-sheet
-description: Ask the user a batch of decisions as a single self-contained HTML page, where every question carries the evidence it came from and a recommended answer. Use when you are about to ask three or more questions at once, when you made calls on the user's behalf that they should confirm, or when they ask for a decision sheet, an open-questions page, a question page, a gap report, or to "confirm these choices".
+description: Build a self-contained HTML decision sheet with evidence and recommended answers. Use when explicitly requested or when a large, evidence-heavy review clearly benefits from a page. Ordinary clarifying questions use the current harness question tool.
 ---
 
 # Decision sheet
 
 Turn a batch of open questions into one HTML page the user answers in a single pass, then paste their answers back and apply them.
 
-Use it when three or more decisions are pending. For one or two questions, use the current harness's structured question tool when available; otherwise ask in conversation. A page costs more than it saves.
+Use only when requested or clearly useful for a large, evidence-heavy review. Question count alone never requires HTML. Prefer the current harness structured question tool for ordinary clarification; otherwise ask in conversation.
 
 ## Why the page works
 

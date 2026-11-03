@@ -12,7 +12,7 @@ Turn canonical `spec.md` and repository evidence into a derived technical review
 Follow `../implementation-review/SKILL.md` → **Markdown preview** for the shared local engine and security/snapshot rules. Render Markdown on request; never persist a separately authored Markdown-to-HTML copy. Keep interactive JSON-driven technical review and answer export intact. Both pages must list the other page and all document references under sidebar **Links**. Do not duplicate document navigation in headers. Keep contextual section deep-links.
 
 ```sh
-node ~/.dotfiles/skills/implementation-review/scripts/preview.mjs /absolute/path/to/review-directory
+node <implementation-review-dir>/scripts/preview.mjs /absolute/path/to/review-directory
 ```
 
 Refresh `.md` preview after edits. Export browser answers before changing origin; stop server with Ctrl+C.
@@ -27,7 +27,7 @@ Start reference with canonical spec path/version, links back to both reviews, an
 
 Add `links["diagram reference"] = "./diagrams.md"` to both JSON views under sidebar Links. Optional technical-section links use existing `links` keys: `flow diagrams`, `architecture diagrams`, `data diagrams`, with heading fragments such as `./diagrams.md#entity-relationships`. Keep bidirectional links and verify every anchor.
 
-Engine uses locally pinned Mermaid, never CDN. Setup when missing: `npm ci --ignore-scripts --prefix ~/.dotfiles/skills/technical-spec`. `package.json` and lockfile pin dependency; do not update/install another dependency without approval. Strict rendering, no HTML labels/click actions/config directives. Render errors or missing engine leave visible warning and source fallback; ordinary Markdown works. Detailed diagrams require localhost preview; `file://` reviews still work but `.md` opens as source.
+Engine uses locally pinned Mermaid, never CDN. Setup when missing: `npm ci --ignore-scripts --prefix <technical-spec-dir>`. `package.json` and lockfile pin dependency; do not update/install another dependency without approval. Strict rendering, no HTML labels/click actions/config directives. Render errors or missing engine leave visible warning and source fallback; ordinary Markdown works. Detailed diagrams require localhost preview; `file://` reviews still work but `.md` opens as source.
 
 ## Steps
 

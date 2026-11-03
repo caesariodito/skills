@@ -1,130 +1,33 @@
 #!/usr/bin/env bash
-# Keep one canonical skills folder shared by Claude Code and Pi.
-#
-# Pi reads the canonical folder through the "skills" entry in its settings.json.
-# Claude Code reads only ~/.claude/skills, so each canonical skill gets a symlink there.
-#
-# Usage:
-#   skills-sync                 link canonical skills into Claude, prune dead links, report drift
-#   skills-sync adopt NAME...   move a harness-local skill into the canonical folder, then link it
-#   skills-sync adopt --all     adopt every harness-local skill that is not shared yet
-#   skills-sync -n ...          dry run: print actions without changing anything
+# Link canonical skills for Claude and native Agent Skills discovery.
+# Usage: skills-sync [-n]. Adoption/moves require explicit manual review.
 set -euo pipefail
-
-CANON="${SKILLS_HOME:-$HOME/.dotfiles/skills}"
-CLAUDE_DIR="$HOME/.claude/skills"
-PI_DIR="$HOME/.pi/agent/skills"
-# Directories under a harness skills folder that are not skills to adopt.
-SKIP_NAMES="synced"
-
+CANON="${SKILLS_HOME:-$(cd "$(dirname "$0")/.." && pwd)}"
 DRY=0
-run() {
-  if [ "$DRY" = 1 ]; then echo "would: $*"; else "$@"; fi
-}
-
-is_skill_dir() { [ -d "$1" ] && [ ! -L "$1" ] && [ -f "$1/SKILL.md" ]; }
-
-skipped() {
-  for s in $SKIP_NAMES; do [ "$1" = "$s" ] && return 0; done
-  return 1
-}
-
-# Harness-local skills: real directories (not symlinks) that hold a SKILL.md.
-local_skills() {
-  for dir in "$CLAUDE_DIR" "$PI_DIR"; do
-    [ -d "$dir" ] || continue
-    for path in "$dir"/*; do
-      name="$(basename "$path")"
-      skipped "$name" && continue
-      if is_skill_dir "$path"; then echo "$path"; fi
-    done
-  done
-}
-
-adopt() {
-  path="$1"
-  name="$(basename "$path")"
-  if [ -e "$CANON/$name" ]; then
-    echo "conflict: $name exists in $CANON and $path; merge by hand, then delete one" >&2
-    return 1
+if [[ "${1:-}" == -n ]]; then DRY=1; shift; fi
+[[ $# == 0 ]] || { echo 'Usage: skills-sync [-n]' >&2; exit 2; }
+[[ -d "$CANON" ]] || { echo 'Missing canonical skills directory' >&2; exit 1; }
+status=0
+for dir in "$HOME/.claude/skills" "$HOME/.agents/skills"; do
+  if [[ ! -d "$dir" ]]; then
+    if [[ "$DRY" == 1 ]]; then printf 'would mkdir: %s\n' "$dir"; else mkdir -p "$dir"; fi
   fi
-  echo "adopt: $path -> $CANON/$name"
-  run mv "$path" "$CANON/$name"
-  find "$CANON/$name" -name __pycache__ -prune -exec rm -rf {} + 2>/dev/null || true
-}
-
-link_all() {
-  mkdir -p "$CLAUDE_DIR"
   for path in "$CANON"/*; do
-    [ -f "$path/SKILL.md" ] || continue
-    name="$(basename "$path")"
-    target="$CLAUDE_DIR/$name"
-    if [ -L "$target" ]; then
-      [ "$(readlink "$target")" = "$path" ] && continue
-      echo "conflict: $target links to $(readlink "$target"), not $path" >&2
-    elif [ -e "$target" ]; then
-      echo "conflict: $target is a real directory; run: skills-sync adopt $name" >&2
-    else
-      echo "link: $target -> $path"
-      run ln -s "$path" "$target"
-    fi
-    if [ -e "$PI_DIR/$name" ]; then
-      echo "warning: $PI_DIR/$name shadows the canonical copy in Pi; remove one" >&2
-    fi
+    [[ -f "$path/SKILL.md" ]] || continue
+    target="$dir/$(basename "$path")"
+    if [[ -L "$target" && "$(readlink "$target")" == "$path" ]]; then continue; fi
+    if [[ -e "$target" || -L "$target" ]]; then
+      printf 'conflict: %s; preserve and merge manually\n' "$target" >&2
+      status=1
+    elif [[ "$DRY" == 1 ]]; then printf 'would link: %s -> %s\n' "$target" "$path"
+    else ln -s "$path" "$target"; fi
   done
-}
-
-prune_dead_links() {
-  for target in "$CLAUDE_DIR"/*; do
-    [ -L "$target" ] || continue
+  for target in "$dir"/*; do
+    [[ -L "$target" && ! -e "$target" ]] || continue
     case "$(readlink "$target")" in
-      "$CANON"/*) [ -e "$target" ] || { echo "prune: $target"; run rm "$target"; } ;;
+      "$CANON"/*)
+        if [[ "$DRY" == 1 ]]; then printf 'would prune: %s\n' "$target"; else rm "$target"; fi ;;
     esac
   done
-}
-
-report_unshared() {
-  local_skills | while read -r path; do
-    name="$(basename "$path")"
-    [ -e "$CANON/$name" ] && continue
-    echo "unshared: $path (run: skills-sync adopt $name)"
-  done
-}
-
-if [ "${1:-}" = "-n" ]; then DRY=1; shift; fi
-mkdir -p "$CANON"
-
-case "${1:-}" in
-  adopt)
-    shift
-    if [ "${1:-}" = "--all" ]; then
-      local_skills | while read -r path; do
-        [ -e "$CANON/$(basename "$path")" ] || adopt "$path"
-      done
-    else
-      [ $# -gt 0 ] || { echo "usage: skills-sync adopt NAME... | --all" >&2; exit 2; }
-      for name in "$@"; do
-        found=""
-        for dir in "$CLAUDE_DIR" "$PI_DIR"; do
-          if is_skill_dir "$dir/$name"; then
-            [ -n "$found" ] && { echo "conflict: $name exists in both harnesses; merge by hand first" >&2; exit 1; }
-            found="$dir/$name"
-          fi
-        done
-        [ -n "$found" ] || { echo "not found: no local skill named $name" >&2; exit 1; }
-        adopt "$found"
-      done
-    fi
-    link_all
-    prune_dead_links
-    ;;
-  "")
-    link_all
-    prune_dead_links
-    report_unshared
-    ;;
-  *)
-    sed -n '2,13p' "$0" | sed 's/^# \{0,1\}//'
-    exit 2
-    ;;
-esac
+done
+exit "$status"

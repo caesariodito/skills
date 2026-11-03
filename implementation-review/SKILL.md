@@ -16,7 +16,7 @@ Turn canonical `spec.md` and repository evidence into an optional browser review
 Keep Markdown as source; never author or persist a parallel HTML copy of `spec.md` or other review-workflow Markdown. Use shared local engine (Node stdlib plus `marked` already installed with managed Pi):
 
 ```sh
-node ~/.dotfiles/skills/implementation-review/scripts/preview.mjs /absolute/path/to/review-directory
+node <implementation-review-dir>/scripts/preview.mjs /absolute/path/to/review-directory
 ```
 
 Open the printed localhost URL. `.md` links render on request; refresh shows edits. Preview pages share review-page tokens (`assets/preview.css`), follow system light/dark, list existing review documents under sidebar **Links** with the current page marked, and build **Contents** from H2/H3 with copyable heading anchors; on narrow screens the sidebar collapses. Mermaid diagrams (`assets/preview-diagrams.mjs`) use page theme colors, render at natural size (never upscaled, shrink to 70% before horizontal scroll), and offer a **Full size** viewer. Restart the server after editing these assets. Generated interactive review HTML stays unchanged and also opens from `file://`. No server-side answer storage. Browser answers are origin-specific: export before switching from `file://`, changing port, or stopping a review session. Stop with Ctrl+C.

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict';
-import { mkdir, mkdtemp, writeFile, symlink, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, writeFile, symlink, rm, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { request } from 'node:http';
 import { startPreview, diagramAllowed } from './preview.mjs';
@@ -41,7 +41,9 @@ try {
   await writeFile(resolve(root, 'diagrams.md'), '# Diagram reference\n\n## Entity relationships\n\n```mermaid\nflowchart TD\n A-->B\n```');
   const diagrams = await get('diagrams.md');
   assert(diagrams.body.includes('id="entity-relationships"') && diagrams.body.includes(' data-mermaid'));
-  assert.match(diagrams.headers['content-security-policy'], /nonce-.*strict-dynamic/);
+  const engineAvailable = await access(resolve(import.meta.dirname, '../../technical-spec/node_modules/mermaid/dist/mermaid.esm.min.mjs')).then(() => true, () => false);
+  assert.match(diagrams.headers['content-security-policy'], engineAvailable ? /nonce-.*strict-dynamic/ : /script-src 'none'/);
+  if (!engineAvailable) assert(diagrams.body.includes('Mermaid engine unavailable'));
   assert(diagrams.body.includes('<figure class="figure" data-title="Entity relationships">'));
   await writeFile(resolve(root, 'outline.md'), '# Doc\n\n## Same\n\n### Child `code`\n\n## Same\n\n#### Deep');
   const outline = (await get('outline.md')).body;
@@ -53,8 +55,10 @@ try {
   assert(sidebar.includes('>Implementation review</a>') && sidebar.includes('>Canonical spec</a>') && sidebar.includes('>Diagram reference</a>'));
   assert(!sidebar.includes('technical-spec.html'), 'missing review documents are not linked');
   assert((await get('spec.md')).body.includes('spec.md" aria-current="page">Canonical spec'));
-  assert.match((await get('_mermaid/loader.mjs')).body, /mermaid\.esm\.min\.mjs/);
-  assert.equal((await get('_mermaid/mermaid.esm.min.mjs')).status, 200);
+  if (engineAvailable) {
+    assert.match((await get('_mermaid/loader.mjs')).body, /mermaid\.esm\.min\.mjs/);
+    assert.equal((await get('_mermaid/mermaid.esm.min.mjs')).status, 200);
+  }
   assert.equal((await get('_mermaid/../../package.json')).status, 403);
   assert.equal((await get('_mermaid/package.json')).status, 403);
   await writeFile(resolve(root, 'blocked.md'), '```mermaid\n%%{init: {securityLevel: loose}}%%\nflowchart TD\n```');

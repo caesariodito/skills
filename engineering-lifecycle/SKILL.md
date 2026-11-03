@@ -1,6 +1,6 @@
 ---
 name: engineering-lifecycle
-description: "Run long-running, complex, or consequential engineering work through planning, canonical spec.md, dry-run review, feedback, implementation, review, fixes, and re-review. Use before implementation when work spans dependent changes or affects contracts, persistent data, architecture, trust boundaries, concurrency, or recovery. Small low-risk edits stay direct."
+description: "Run consequential engineering changes through planning, canonical spec.md, dry-run review, feedback, implementation, review, fixes, and re-review. Use before consequential contract, persistent-data, architecture, security-boundary, concurrency, or recovery changes. Duration or dependent steps alone need task tracking, not documents. Small low-risk edits stay direct."
 ---
 
 # Engineering lifecycle
@@ -9,9 +9,9 @@ Work directly in the current session. Separate sequential passes share context; 
 
 ## 1. Plan from evidence
 
-Inspect applicable instructions, existing code, manifests, checks, CI, relevant ADRs, and supported runtime. Identify scope, dependencies, risks, and cheapest verification. Use relevant language guidance from `~/.pi/agent/skills/project-init/references/`; preserve repository architecture and frontend design system.
+Inspect applicable instructions, existing code, manifests, checks, CI, relevant ADRs, and supported runtime. Identify scope, dependencies, risks, and cheapest verification. Use relevant language guidance from `../project-init/references/` relative to this skill directory; preserve repository architecture and frontend design system.
 
-Keep a short task list. Prefer deletion, stdlib, native platform, and installed dependencies. Skip this document workflow for small, low-risk, well-understood changes; still test and inspect their diff.
+Keep a short task list. Prefer deletion, stdlib, native platform, and installed dependencies. Skip this document workflow for small, low-risk, well-understood changes; still test and inspect their diff. Duration or dependent steps alone do not trigger document workflow; use task tracking when needed.
 
 Complete when scope, applicable conventions, proposed sequence, and verification are known.
 
@@ -32,7 +32,7 @@ Keep only applicable sections:
 
 Mark assumptions. Reuse established test boundaries without asking; escalate new boundaries only when consequential. No story-count targets, speculative infrastructure, or ADR ceremony for routine choices.
 
-Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those structured views derive from this spec; feedback updates this file first. For browser reading of Markdown, use the shared local preview engine documented in `~/.dotfiles/skills/implementation-review/SKILL.md` → Markdown preview. Render on request, not into a separate HTML copy; preserve canonical source and serve only a dedicated non-sensitive review directory.
+Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those structured views derive from this spec; feedback updates this file first. For browser reading of Markdown, use the shared local preview engine documented in `../implementation-review/SKILL.md` → Markdown preview. Render on request, not into a separate HTML copy; preserve canonical source and serve only a dedicated non-sensitive review directory.
 
 For detailed flows, sequence, ERD, UML-style structure/state, or deployment topology, `technical-spec` may add derived `diagrams.md` rendered through local preview. Generate only relevant views; link spec IDs and assumptions, preserve canonical spec authority, and refresh diagrams after feedback. No separate approval or diagram schema.
 
