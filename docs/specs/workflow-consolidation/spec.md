@@ -28,7 +28,7 @@ Alternative: vendor snapshots with update tooling. Rejected: adds duplicate auth
 
 ## Dry-run review
 
-Clean server checkout fast-forwarded before edits. Preserve dirty Mac/shared changes. Pin shared source only after its tests and commit succeed; push shared before dependent server commit. Native package manifest avoids new installer. Relative sibling references require package retaining repository layout. Old daily files remain disabled, not deleted. Installer must normalize Git package identity and remove only known legacy discovery path. Runtime-local extensions copied into Mac restore source without moving originals. No need to alter active provider or MCP configuration.
+Clean server checkout fast-forwarded before edits. Preserve dirty Mac/shared changes. Pin shared source only after its tests and commit succeed; push shared before dependent server commit. Native package manifest avoids new installer. Relative sibling references require package retaining repository layout. Old daily files remain disabled, not deleted. Installer must normalize Git package identity and remove only known legacy discovery path. Personal response-timing extension copied into Mac restore source and linked; Herdr-managed integration remains upstream-owned and is documented rather than vendored. No need to alter active provider or MCP configuration.
 
 ## Verification and rollback
 
@@ -36,4 +36,8 @@ Run shared link regression, preview tests, upstream audit validator tests, Pytho
 
 ## Stage
 
-Shared-source slice verified: link regression passed; 66 Node preview/audit-validator tests passed; both Python renderer smoke tests passed; shell syntax and diff checks passed. Standards review: no upstream audit file edits, no dependency additions, symlink conflicts preserved. Scope review: package manifest includes portable workflows and gateway skills; server and Mac consumer slices remain in progress. Runtime reload, real fresh-VM/mobile/reboot acceptance remain separate manual checks.
+Implementation verified. Shared package commit a0663bd8c2eab274843959477587dcba024fee72 published before consumer pins. Link regression passed; 66 Node preview/audit-validator tests and both Python renderer smoke tests passed. Server 15 Node installer/gateway tests passed, including legacy retention, exact gateway retirement, custom gateway refusal, profile selection, and reruns. Mac Playwright check passed; zsh/shell syntax and repository diff checks passed. Native installed Pi package-manager check verified manifest/resource filtering without installing packages or executing extensions.
+
+Standards review: no upstream audit file edits, dependency additions, credentials/state publication, or VPS actions. Herdr-managed runtime integration remains upstream-owned. Old daily files retained; exact gateway copies archived outside discovery, modified copies fail before managed writes. Scope review: canonical shared source, portable references, narrower decision-sheet routing, thin Mac/server guidance, restore documentation, and native server dependency selection implemented. Removed source-only historical binaries/catalogs and vendored snapshots; Git history retains rollback.
+
+All source changes approved for commit/push; final publication recorded in session response. Runtime reload, real fresh-VM/mobile/reboot acceptance remain separate manual checks. ShellCheck unavailable, not run. Existing provider implementations intentionally retained: unifying transport/auth behavior requires separate compatibility evidence and approval; this change consolidates workflow source, not gateway execution semantics. Historical completed specs remain historical, not new implementation claims.
