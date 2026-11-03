@@ -1,90 +1,45 @@
 ---
 name: engineering-lifecycle
-description: "Run consequential engineering changes through planning, canonical spec.md, dry-run review, feedback, implementation, review, fixes, and re-review. Use before consequential contract, persistent-data, architecture, security-boundary, concurrency, or recovery changes. Duration or dependent steps alone need task tracking, not documents. Small low-risk edits stay direct."
+description: Run consequential changes through exploration, human understanding, approved canonical spec, implementation verification and one independent Herdr review. Use for contract, persistent-data, architecture, trust-boundary, concurrency or recovery changes. Small low-risk edits stay direct.
 ---
 
 # Engineering lifecycle
 
-Work directly in the current session. Separate sequential passes share context; never describe them as independent review. Herdr delegation requires an explicit request and the `herdr` skill; it does not replace this lifecycle.
+One workflow authority. Small low-risk edits use direct implementation and focused verification; duration alone needs task tracking, not documents or agents. Use existing repository conventions and [project-init language references](../project-init/SKILL.md) when relevant. Prefer deletion, stdlib, native platform and installed dependencies. Work in current session except explicitly authorized Herdr delegation.
 
-## 1. Plan from evidence
+| Stage | Action and exit condition |
+|---|---|
+| Ground | Inspect instructions, callers, code, manifests, checks, CI, runtime, existing decisions and Git baseline. State problem, constraints, scope and cheapest evidence. |
+| Explore | Before canonical spec, use [architect](../architect/SKILL.md) for meaningful design forks and [arena](../arena/SKILL.md) for distinct alternatives/experiments. Evidence supports recommendation and remaining uncertainty is explicit. |
+| Explain and decide | Use [teach](../teach/SKILL.md) when human needs big picture, pipeline, phase or data/invariant drill-down. Resolve consequential/product choices; do not ask human to guess observable facts. |
+| Specify | Promote chosen design into existing spec convention, otherwise docs/specs/<feature>/spec.md. Include applicable requirements below; no parallel architecture authority. |
+| Dry-run and approve | Trace plan against real code and failure paths, security/data/accessibility, dependencies and rollback. Resolve blockers; obtain explicit approval before consequential implementation. Exploration request is not implementation approval. |
+| Build and verify | Small approved slices, one writer per checkout, focused regression plus required broader checks. Verify actual user behavior where relevant. Missing checks stay visible. |
+| Independent review | Load [independent-review](../independent-review/SKILL.md) after author checks pass. One fresh authorized Herdr reviewer covers intent, security, sufficiency, simplicity and documented project future. No recursive review or mandatory panel. |
+| Fix and recheck | Verify findings, fix blockers, record dismissals/deferrals and rerun checks. Reviewer rechecks exact updated scope. Material design changes return to spec and approval; two unresolved rounds stop with blocker. |
+| Done | Acceptance evidence, relevant checks, required independent review and blocker disposition recorded. Report source paths, results and residual limits. No completion claim when required gate blocked. |
 
-Inspect applicable instructions, existing code, manifests, checks, CI, relevant ADRs, and supported runtime. Identify scope, dependencies, risks, and cheapest verification. Use relevant language guidance from `../project-init/references/` relative to this skill directory; preserve repository architecture and frontend design system.
+## Exploration authority
 
-Keep a short task list. Prefer deletion, stdlib, native platform, and installed dependencies. Skip this document workflow for small, low-risk, well-understood changes; still test and inspect their diff. Duration or dependent steps alone do not trigger document workflow; use task tracking when needed.
+Within approved problem scope, inspect/research, sketch usage/data models, revise hypotheses, create disposable prototypes in ignored .scratch/<task>/ and run safe local checks with installed tools. Use isolated synthetic data/ports, no shared services or unrelated private state. No approval needed for each bounded exploratory step. Outside repository ask for output directory. Do not impose a full spec before learning enough to choose.
 
-Complete when scope, applicable conventions, proposed sequence, and verification are known.
+Exploration does not authorize production edits, dependency installation, external writes, publishing, deployment, exposure/auth changes, destructive operations or unsafe code execution. Herdr candidates require explicit task-level grant specifying scope/count/budget and stop conditions; grant can cover bounded candidate work without repeat questions, never recursive spawning. Actual security checks retain all upstream sandbox requirements. Ask when experiment crosses these boundaries.
 
-## 2. Write canonical spec.md
+## Canonical spec contents
 
-Use existing tracked specification convention; otherwise `docs/specs/<feature>/spec.md`. Update an existing matching spec instead of creating another authority. Outside a repository, ask for an output directory. Keep generated review pages and temporary evidence in ignored `.scratch/<feature>/`.
+| Include when relevant | Record |
+|---|---|
+| Intent | Problem, goal, constraints, scope, non-goals, numbered observable acceptance and failure cases |
+| Decisions | Source evidence, distinct alternatives, why chosen, accepted trade-offs, assumptions and human choices |
+| Shape | Ownership, contracts, data/invariants, processing, trust boundaries, concurrency/recovery, compatibility and accessibility |
+| Project direction | Documented expected use/roadmap, deliberate ceilings and revisit triggers; no speculative infrastructure |
+| Delivery | Small verifiable slices, affected areas, checks mapped to acceptance, rollout/rollback where affected |
+| Review | Approval scope, exact baselines/heads, independent-review authorization, coverage/findings/disposition, completion evidence and residual gaps |
 
-Keep only applicable sections:
+Feedback updates canonical source first. Optional HTML/JSON/diagrams derive from it. Load implementation-review/technical-spec only when requested or clearly useful; follow their scoped preview rules. Use [shared Markdown preview](../implementation-review/SKILL.md) on request, not another authored HTML copy. Working generative UI is explanatory, not durable source or implicit decision channel.
 
-- Problem, goal, scope, and explicit non-goals.
-- Numbered, observable acceptance criteria and relevant failure cases.
-- Current constraints and evidence: source paths, contracts, runtime, ADRs.
-- Plan: smallest coherent slices and affected areas.
-- Consequential decisions: constraint/evidence, simplest viable choice, meaningful alternative, accepted trade-off, failure outcome, and revisit trigger.
-- Contracts, data invariants, trust boundaries, concurrency/recovery, rollout/rollback only where affected.
-- Verification commands mapped to acceptance criteria; frontend accessibility and design-system checks when applicable.
-- Open questions, review feedback/disposition, approval, current stage, and evidence of completion.
+## Completion boundaries
 
-Mark assumptions. Reuse established test boundaries without asking; escalate new boundaries only when consequential. No story-count targets, speculative infrastructure, or ADR ceremony for routine choices.
+Implementation approval alone does not authorize reviewer spawning; obtain bounded review grant unless already explicit. If Herdr/independence unavailable, required gate stays blocked until environment/grant supplied or user explicitly waives it in spec. Trivial edits do not acquire mandatory review. Reviewer role itself never triggers another reviewer. Full security audit remains separate from guidance-mode implementation review.
 
-Optional: load `implementation-review` or `technical-spec` only when HTML review is requested or clearly useful for a complex human review. Those structured views derive from this spec; feedback updates this file first. For browser reading of Markdown, use the shared local preview engine documented in `../implementation-review/SKILL.md` → Markdown preview. Render on request, not into a separate HTML copy; preserve canonical source and serve only a dedicated non-sensitive review directory.
-
-For detailed flows, sequence, ERD, UML-style structure/state, or deployment topology, `technical-spec` may add derived `diagrams.md` rendered through local preview. Generate only relevant views; link spec IDs and assumptions, preserve canonical spec authority, and refresh diagrams after feedback. No separate approval or diagram schema.
-
-Complete when every requirement has acceptance criteria and planned verification, and unresolved implementation blockers are explicit.
-
-## 3. Dry-run review before implementation
-
-Review the proposed change against actual code and configuration without applying implementation changes or mutating external systems. Trace happy paths and failures; check compatibility, data integrity, security, accessibility, design-system reuse, dependencies, rollback, and test feasibility. Check whether deletion or a smaller change meets the goal.
-
-Record actionable findings and supporting paths in `spec.md`. A dry-run is code-grounded reasoning plus safe inspections, not a claim that unrun tests passed. Run safe validation only when useful.
-
-Complete when proposed slices are feasible and every blocking finding is resolved or presented for user decision.
-
-## 4. Apply feedback and approve
-
-Present a concise spec path, decisions, dry-run findings, and remaining blockers. Obtain explicit approval of the spec before implementing complex work. A request to audit, plan, or write a spec is not implementation approval.
-
-Apply feedback to `spec.md` first. Material scope, contract, risk, or design changes return to dry-run review and renewed approval. Reuse settled decisions; do not repeat the interview. Record approval with the scope it covers.
-
-Complete when the current spec is approved and no implementation-blocking questions remain.
-
-## 5. Implement approved slices
-
-Capture baseline Git status and pre-existing edits. Make the smallest coherent diff; retain one writer per checkout. Use established tests/tooling and focused regression checks. No new dependencies without approval. Do not commit, publish, merge, or deploy without authority.
-
-If evidence invalidates the approved design, stop affected work, update the spec, and return to review/approval. Ordinary local corrections within approved scope need no new ceremony.
-
-Complete when all approved slices exist and focused checks pass; missing broader checks remain open.
-
-## 6. Review actual work
-
-Review committed changes against the recorded baseline and include staged, unstaged, and relevant untracked changes. Use two separate sequential passes in the current session:
-
-- **Standards:** inspect correctness, security, accessibility, language/runtime and architecture conventions, error/resource handling, compatibility, and simplicity against repository rules and configured checks. Prefer local fixes or deletion; abstraction requires demonstrated benefit. A heuristic smell alone is not a defect.
-- **Spec:** map every acceptance criterion to changed behavior and verification; find missing requirements, incorrect failure paths, unintended behavior, and scope creep. Canonical `spec.md` takes precedence over tickets or review views.
-
-Verify each finding against actual source; record severity, path/line, concrete impact, evidence, and smallest correction. Keep findings from both passes distinct. For tests, exercise observable behavior through established boundaries, use independent expected results, and add a focused regression check for non-trivial logic. When using test-first work, prove the relevant test fails before fixing it. For interface changes, preserve repository vocabulary, compare the simplest viable alternative, and introduce seams only for demonstrated variation or complexity. No external skill pack is required.
-
-Record findings and disposition in the spec. Skipped checks and pre-existing failures remain visible.
-
-Complete when the full intended diff and each acceptance criterion have been reviewed.
-
-## 7. Fix and re-review
-
-Fix actionable findings within approved scope, run focused checks, then review the changed areas and their interactions again. Run required broader checks before completion. Repeat until no blocking findings remain; document justified nonblocking deferrals.
-
-If the same blocker survives two fix rounds, stop and report evidence plus next decision instead of looping indefinitely. Scope/design changes return to the spec and approval gate. This stop condition never permits marking partial work done.
-
-Complete when fixes pass checks and re-review finds no unresolved blocking issue.
-
-## 8. Done with evidence
-
-Update `spec.md` with final stage, acceptance evidence, commands/results, review disposition, and residual risks. Mark done only when all acceptance criteria are verified, required checks passed, and blocking findings are resolved. If verification is unavailable or required checks fail, leave blocked/in progress and say what is missing.
-
-Report changed paths and verification concisely. Later business-outcome measurements do not block delivery unless explicitly part of acceptance. Preserve optional view status semantics; workflow done is not proof that later outcomes were measured.
+Inspect final intended diff including staged, unstaged and relevant untracked files. Tests exercise observable behavior, use independent expected results, and leave a runnable regression for non-trivial logic. Never mark partial implementation, failed required checks or unresolved blockers complete. Do not commit, publish, merge or deploy without explicit authority.

@@ -4,7 +4,7 @@ Canonical portable workflows for Pi, Claude Code, and Agent Skills-compatible to
 
 ## Global Pi guidance
 
-`pi/AGENTS.md` owns portable always-on safety and workflow routing. Machine-specific paths and operations belong in host `~/AGENTS.md`, not this shared file. Pi package installation does **not** activate AGENTS.md automatically. For local authoring, review existing destination before creating link:
+`pi/AGENTS.md` owns portable always-on safety and table-based workflow routing. Detailed harness operations live in `pi/references/operations.md`, read explicitly on demand. Resolve relative modules from canonical source after following runtime AGENTS.md symlink; Markdown links are not automatic includes. Machine-specific paths and operations belong in host `~/AGENTS.md`, not this shared file. Pi package installation does **not** activate AGENTS.md automatically. For local authoring, review existing destination before creating link:
 
 ```sh
 mkdir -p ~/.pi/agent
@@ -37,6 +37,19 @@ Conflicting real directories or foreign links are preserved and reported with no
 
 References use skill-relative paths. `<skill-dir>` means directory containing SKILL.md; sibling skills must be installed together when referenced. Optional review commands use `<implementation-review-dir>` / `<technical-spec-dir>` from advertised skill locations. Preview supports managed Pi and npm Pi; Python 3 needed for builders. Mermaid optional: review lockfile, then explicitly run `npm ci --ignore-scripts` inside technical-spec. No automatic dependency installation.
 
+## Exploration and review
+
+| Skill | Owns |
+|---|---|
+| architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
+| teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |
+| engineering-lifecycle | Canonical decisions/approval, implementation verification and completion gates |
+| independent-review | One authorized fresh Herdr reviewer after consequential implementation, bounded fixes/rechecks; Cloudflare guidance, not full audit |
+
+Exploration permits scoped scratch sketches and safe local experiments without repeated questions, never implicit production edits, dependencies, external writes or delegation. Required review needs explicit task grant; no recursive reviewer. Missing independent reviewer blocks completion unless user explicitly waives gate. Native generative UI is optional and local-interaction-only; accepted decisions return to canonical spec.
+
+Adapted skills retain MIT license/provenance from pstack commit ae5650febf4320793844c12c4adaa937f417f8da. No upstream plugin, Cursor tool/model dependencies or automatic review panels installed.
+
 ## Provenance
 
 - project-init and gateway skills migrated from personal dotfiles revision `444a91a3fa2c1c39d4533fc9b2ac91cde0e7f6f3`; gateway capability text originates from decolua/9router. Review upstream updates rather than replacing local adaptations blindly.
@@ -47,6 +60,7 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 ## Checks
 
 ```sh
+node bin/workflow-check.mjs
 node bin/skills-sync.test.mjs
 node --test implementation-review/scripts/preview.test.mjs security-audit/*.test.cjs
 python3 implementation-review/scripts/smoke_test.py

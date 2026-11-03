@@ -6,9 +6,10 @@
   "pi": {
     "skills": [
       "./9router", "./9router-web-fetch", "./9router-web-search",
-      "./anti-slop-init", "./decision-sheet", "./emil-design-eng",
+      "./anti-slop-init", "./architect", "./arena", "./decision-sheet", "./emil-design-eng",
       "./engineering-lifecycle", "./html-test-cases", "./implementation-review",
-      "./project-init", "./security-audit", "./server-operations", "./technical-spec"
+      "./independent-review", "./project-init", "./security-audit", "./server-operations",
+      "./teach", "./technical-spec", "./unslop"
     ]
   }
 }
