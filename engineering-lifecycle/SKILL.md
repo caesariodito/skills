@@ -5,6 +5,8 @@ description: Run consequential changes through exploration, human understanding,
 
 # Engineering lifecycle
 
+For approved repository implementation, follow [automatic local delivery](../pi/references/local-delivery.md): create/reuse an exclusively task-owned branch/worktree before edits, then commit verified task changes with Conventional Commits after required checks/review pass. This standing local authorization does not grant push, merge, cleanup or reviewer spawning. Report branch, commit hash and worktree path at completion.
+
 One workflow authority. Small low-risk edits use direct implementation and focused verification; duration alone needs task tracking, not documents or agents. Use existing repository conventions and [project-init language references](../project-init/SKILL.md) when relevant. Prefer deletion, stdlib, native platform and installed dependencies. Work in current session except explicitly authorized Herdr delegation.
 
 | Stage | Action and exit condition |
@@ -42,4 +44,4 @@ Feedback updates canonical source first. Optional HTML/JSON/diagrams derive from
 
 Implementation approval alone does not authorize reviewer spawning; obtain bounded review grant unless already explicit. If Herdr/independence unavailable, required gate stays blocked until environment/grant supplied or user explicitly waives it in spec. Trivial edits do not acquire mandatory review. Reviewer role itself never triggers another reviewer. Full security audit remains separate from guidance-mode implementation review.
 
-Inspect final intended diff including staged, unstaged and relevant untracked files. Tests exercise observable behavior, use independent expected results, and leave a runnable regression for non-trivial logic. Never mark partial implementation, failed required checks or unresolved blockers complete. Do not commit, publish, merge or deploy without explicit authority.
+Inspect final intended diff including staged, unstaged and relevant untracked files. Tests exercise observable behavior, use independent expected results, and leave a runnable regression for non-trivial logic. Never mark partial implementation, failed required checks or unresolved blockers complete. Commit only under automatic local-delivery authority or explicit task authorization; never publish, merge or deploy without separate explicit authority.
