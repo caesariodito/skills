@@ -41,6 +41,8 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 
 | Skill | Owns |
 |---|---|
+| grill-me | Explicit, read-only decision interview using dependency-aware structured rounds; no automatic specs or implementation |
+| handoff | Explicit portable session brief in a private temporary file; preserves evidence and approval boundaries, launches no agents |
 | architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
 | teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |
 | engineering-lifecycle | Canonical decisions/approval, implementation verification and completion gates |
@@ -56,6 +58,8 @@ Adapted skills retain MIT license/provenance from pstack commit ae5650febf432079
 - server-operations extracts existing personal deployment reference from pi-server-agents `833318e9edbb0fe4bee5f208e3b0dce2d35e9296`, with conditional host applicability and secret-safe validation.
 - security-audit retains pinned Cloudflare source, MIT license, and local provenance in security-audit/UPSTREAM.md. Installation does not provision independent agents or required OS sandbox controls.
 - emil-design-eng retains bundled license. Herdr remains upstream-managed rather than redistributing an unversioned local snapshot.
+
+Use `/skill:grill-me <idea>` or `/skill:handoff <next task>` in Pi; `/grill-me` or `/handoff` in harnesses with skill slash commands. Reload after installation. Both retain pinned Matt Pocock source and MIT attribution in their own `UPSTREAM.md` and `LICENSE` files.
 
 ## Checks
 

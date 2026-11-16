@@ -11,6 +11,14 @@ Turn canonical `spec.md` and repository evidence into an optional browser review
 
 `spec.md` owns requirements, decisions, acceptance, and feedback. JSON is renderer input; HTML is a derived review view. Include the canonical spec path in page links. Update the spec first when answers return, then synchronize JSON and rebuild. Never implement from conflicting or stale views; do not add renderer IDs to the spec unless useful for traceability.
 
+## Native Herdr explanation (optional)
+
+When the user wants diagrams and interactive explanations inside Herdr desktop, use the reusable [native spec explainer](herdr/README.md). Keep canonical `spec.md` authoritative and existing browser HTML review, decisions and exports unchanged. Native explanation is a derived teaching view, never approval capture.
+
+Load installed `herdr` skill, select the managed backend, and inspect desktop guide before control. Generate validated `.scratch/<feature>/explanation.json` from spec/code, with source path/version, selectable phases/scenarios, expandable details and bounded node/edge diagrams with text equivalents. Do not generate executable mod code per spec. Use `herdr/example.json` for contract shape; run `node <skill-dir>/herdr/model.test.mjs` and `herdr-app check` on installed viewer. Installation and opening/changing GUI require user authorization. Target caller's verified pane, never unrelated focused pane. No dependencies, global key changes or default layout edits.
+
+Viewer generates native SVG assets itself; no raw SVG paths, embedded images, HTML/CSS/browser runtime, network, shell execution, callbacks or source writes. Regenerate after material spec feedback; visible version is provenance, not automatic freshness verification. Validate live loading and interactions separately from eager `check`. If desktop/viewer is unavailable, retain concise text and existing browser preview; do not silently install or claim generative UI rendered. This route does not require a Claude child session.
+
 ## Markdown preview
 
 Keep Markdown as source; never author or persist a parallel HTML copy of `spec.md` or other review-workflow Markdown. Use shared local engine (Node stdlib plus `marked` already installed with managed Pi):

@@ -1,0 +1,64 @@
+{
+  "version": 1,
+  "title": "Native spec explanations",
+  "spec": "/Users/wolter/.dotfiles/skills/docs/specs/herdr-spec-explainer/spec.md",
+  "source_version": "Approved native explainer · working example",
+  "sections": [
+    {
+      "id": "overview",
+      "title": "1. Understand the design",
+      "body": "## One spec, two views\n\n**Native Herdr view** explains the design while your agent stays beside it. **Browser review** keeps decisions, exports and approvals.\n\nSelect a scenario below. Diagram and explanation change together.",
+      "details": "### Source ownership\n\nCanonical `spec.md` owns requirements. Explanation JSON is a derived teaching artifact, never an approval record.\n\nAgent updates JSON, not executable viewer code. The viewer generates diagrams from bounded nodes and edges.",
+      "scenarios": [
+        {
+          "id": "explore",
+          "title": "Explore a spec",
+          "body": "Agent reads the spec, writes an explanation, then opens this native pane. Select phases and scenarios without leaving Herdr.",
+          "diagram": {
+            "width": 600,
+            "height": 310,
+            "alt": "Canonical spec supplies explanation data. Native viewer reads that data and shows the interactive explanation. No decisions are written back.",
+            "nodes": [
+              {"id": "spec", "title": "Canonical spec.md", "x": 30, "y": 20},
+              {"id": "data", "title": "Explanation JSON", "x": 30, "y": 125},
+              {"id": "view", "title": "Native Herdr viewer", "x": 320, "y": 230}
+            ],
+            "edges": [
+              {"from": "spec", "to": "data", "label": "derive"},
+              {"from": "data", "to": "view", "label": "read"}
+            ]
+          }
+        },
+        {
+          "id": "approve",
+          "title": "Review and approve",
+          "body": "Open the existing HTML review in your browser. Export answers there; agent applies feedback to canonical spec first. Native explanation must be regenerated after material changes.",
+          "diagram": {
+            "width": 600,
+            "height": 310,
+            "alt": "Canonical spec generates browser review. Human exports answers. Agent uses those answers to update canonical spec. Native viewer never records approval.",
+            "nodes": [
+              {"id": "spec", "title": "Canonical spec.md", "x": 30, "y": 20},
+              {"id": "html", "title": "Browser HTML review", "x": 30, "y": 125},
+              {"id": "answers", "title": "Human review answers", "x": 320, "y": 230}
+            ],
+            "edges": [
+              {"from": "spec", "to": "html", "label": "generate"},
+              {"from": "html", "to": "answers", "label": "export"}
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "failure",
+      "title": "2. Handle failures",
+      "body": "## Preserve useful context\n\nMalformed explanation data must not blank the last valid explanation. Diagram generation failure must not hide the text equivalent.",
+      "details": "### Deliberate limits\n\nLocal files only. No browser embedding, remote resources, shell commands, approval capture or arbitrary executable widgets. Native diagrams use bounded nodes and edges.",
+      "scenarios": [
+        {"id": "invalid", "title": "Invalid JSON", "body": "Viewer keeps the last valid explanation and shows an error. Fix JSON; next refresh recovers automatically."},
+        {"id": "missing", "title": "Missing diagram cache", "body": "Text equivalent stays readable. Use Refresh after fixing app-data write permissions."}
+      ]
+    }
+  ]
+}

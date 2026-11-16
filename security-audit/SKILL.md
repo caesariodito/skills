@@ -9,12 +9,12 @@ Find vulnerabilities that violate a real trust boundary, then give owners the so
 
 ## Operating modes
 
-This skill is guidance by default. Loading it does not authorize the complete audit workflow or file creation.
+This skill is guidance by default. Standing global authority permits task-related source-only audits, including the complete source-only workflow and its artifacts, without a separate approval round. Do not audit unrelated targets or automatically escalate every security question into a full audit.
 
 - **Guidance mode**: For security questions, focused reviews, methodology, triage, or investigation of specific findings, use only the relevant parts of this skill. Do not automatically run all six phases, create an output directory, or write audit artifacts. You may launch focused agents when useful; they return results to the current task.
 - **Full audit mode**: Use the complete workflow when the user explicitly asks to audit or pen-test a codebase, asks for a full, comprehensive, or end-to-end security review, or requests report artifacts. Run all six phases and write the files defined below.
 
-If the request could mean either mode, ask one focused question before creating files or starting the complete workflow.
+When mode is unclear, use guidance mode; choose full source-only mode only when needed for the task. Record bounded scope, agent budget and output location, and report them with coverage and limits at completion. Active security testing requires explicit target authorization and all execution controls below; source-only authority does not authorize running target code or live probes.
 
 ## Platform terminology
 
@@ -48,7 +48,7 @@ In full audit mode, resolve these values before reconnaissance:
 - **Skill directory**: the absolute directory containing this `SKILL.md`.
 - **Target**: the absolute repository root under review.
 - **Repo name**: a stable repository identifier from the directory or local Git remote.
-- **Output directory**: a new writable directory outside the target, defaulting to `~/security-audit-skill/<repo-name>/run-<N>`, where `<N>` is the next unused integer. Use a directory inside the target only when the user explicitly selects it and the parent verifies that version control ignores the whole directory. Otherwise stop and request an external path.
+- **Output directory**: a new writable directory outside the target, defaulting to `~/security-audit-skill/<repo-name>/run-<N>`, where `<N>` is the next unused integer. Use a directory inside the target only when the user explicitly selects it and the parent verifies that version control ignores the whole directory. Otherwise use the external default without a confirmation round.
 - **Source ref**: the reviewed commit and whether the worktree is dirty. Do not treat unreviewed generated or modified files as another revision.
 
 ### Write isolation

@@ -7,8 +7,8 @@
     "skills": [
       "./9router", "./9router-web-fetch", "./9router-web-search",
       "./anti-slop-init", "./architect", "./arena", "./decision-sheet", "./emil-design-eng",
-      "./engineering-lifecycle", "./html-test-cases", "./implementation-review",
-      "./independent-review", "./project-init", "./security-audit", "./server-operations",
+      "./engineering-lifecycle", "./grill-me", "./handoff", "./herdr-startup", "./html-test-cases", "./implementation-review",
+      "./independent-review", "./long-running-mode", "./project-init", "./security-audit", "./server-operations",
       "./teach", "./technical-spec", "./unslop"
     ]
   }

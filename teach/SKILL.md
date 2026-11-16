@@ -22,7 +22,9 @@ Start with smallest complete explanation. Add detail where requested or where ne
 
 Follow one synthetic example through relevant phases. Keep names and values consistent. Show only applicable levels; do not manufacture data models for a prose question. Mark observed facts, assumptions, proposals and unresolved questions visibly.
 
-Use available native generative UI/show_widget when an interactive view helps: overview, selectable phases, expandable records/invariants, side-by-side alternatives. Follow tool design/accessibility guidelines. Keep text equivalents, keyboard access, readable contrast and reduced-motion behavior. Native widget interaction is local only: no agent callbacks, silent decision capture or writes. Ask for final decisions in conversation or structured question tool. No new visualization dependency without approval; if unavailable, use concise tables, code examples or supported diagrams and say what is unavailable.
+## Native visualization
+
+Explicit `/teach` or `/skill:teach` invocation writes a grounded Markdown/Mermaid explanation and opens installed Visualizer by default, unless user requests text only. Work directly; no visualization child session. Read [shared Visualizer delivery rules](references/visualizer.md) fully and follow artifact, compatibility, launch and verification boundaries. Automatic skill selection may stay in chat; do not open GUI without requested visualization or prior approval.
 
 For proposed architectures, use [architect](../architect/SKILL.md). Visualization is working explanation, not canonical authority; accepted decisions go into lifecycle spec, and durable visual artifacts are optional derived views.
 

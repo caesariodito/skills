@@ -64,17 +64,17 @@ Draft rules:
 
 Complete when draft is concise, evidence-backed, and contains no speculative architecture.
 
-## 4. Request approval
+## 4. Confirm evidence and authority
 
-Show proposed file or concise summary of its rules and ask user to approve creation. Do not create or replace repository guidance without approval. Call out conflicts with existing conventions.
+Standing global authority permits creating missing repository guidance from observed conventions without a separate approval round. Preserve existing guidance; do not replace it under this default. Resolve conflicting conventions before writing, and honor explicit task restrictions.
 
-Complete when user approves exact direction.
+Complete when the missing file and evidence-backed rules are established.
 
 ## 5. Write and verify
 
-1. Write approved repository-local file.
+1. Write the missing evidence-backed repository-local file.
 2. Re-read it from repository root and check every command and path against repository state.
 3. Run cheapest relevant non-destructive validation, such as config parsing or command discovery. Do not run builds or tests solely because guidance names them unless user requested repository validation.
-4. Report file path, evidence used, checks run, and any unresolved uncertainty.
+4. Report file path, rules added, evidence used, checks run, and any unresolved uncertainty.
 
 Complete when file exists, references valid repository facts, and verification has no unresolved error.

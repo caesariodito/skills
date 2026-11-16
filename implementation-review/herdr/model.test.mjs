@@ -1,0 +1,38 @@
+import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
+import { parse, svg, selection, MAX_BYTES } from './model.mjs';
+const raw = readFileSync(new URL('./example.json', import.meta.url), 'utf8');
+const sample = JSON.parse(raw);
+const valid = parse(raw);
+assert.equal(valid.sections.length, 2);
+assert.deepEqual(selection(valid, 'overview', 'approve'), {section:'overview', scenario:'approve'});
+assert.deepEqual(selection(valid, 'removed', 'removed'), {section:'overview', scenario:'explore'});
+const reject = mutate => { const d = structuredClone(sample); mutate(d); assert.throws(() => parse(JSON.stringify(d))); };
+reject(d => d.version = 2);
+reject(d => d.sections[1].id = d.sections[0].id);
+reject(d => d.sections[0].id = '../../escape');
+for (const id of [123, true, ['abc'], undefined]) {
+  reject(d => d.sections[0].id = id);
+  reject(d => d.sections[0].scenarios[0].id = id);
+  reject(d => d.sections[0].scenarios[0].diagram.nodes[0].id = id);
+}
+reject(d => d.sections[0].body = '<img src="https://example.com/x">');
+reject(d => d.sections[0].body = '![image](https://example.com/x)');
+reject(d => d.sections[0].scenarios[1].id = 'explore');
+reject(d => d.sections[0].scenarios = []);
+reject(d => d.sections[0].body = null);
+reject(d => d.sections[0].scenarios[0].diagram.nodes[0].x = -1);
+reject(d => d.sections[0].scenarios[0].diagram.width = 100000);
+reject(d => d.sections[0].scenarios[0].diagram.edges[0].to = 'missing');
+reject(d => d.sections[0].scenarios[0].diagram.alt = '');
+assert.throws(() => parse('x'.repeat(MAX_BYTES + 1)));
+assert.throws(() => parse('"' + '界'.repeat(MAX_BYTES / 2) + '"'));
+assert.throws(() => parse('{'));
+const diagram = structuredClone(valid.sections[0].scenarios[0].diagram);
+diagram.nodes[0].title = '<script>&"';
+const rendered = svg(diagram);
+assert.ok(rendered.includes('&lt;script&gt;&amp;&quot;'));
+assert.ok(!rendered.includes('<script>'));
+assert.ok(!rendered.includes('href='));
+assert.ok(rendered.includes('width="600"'));
+console.log('model checks passed');
