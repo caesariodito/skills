@@ -45,11 +45,12 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 | handoff | Explicit portable session brief in a private temporary file; preserves evidence and approval boundaries, launches no agents |
 | architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
 | teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |
+| visual | Single `/visual` workflow for explanations, plans and diff recaps in native Visualizer; `/teach` shares its renderer rules |
 | engineering-lifecycle | Canonical decisions/approval, implementation verification and completion gates |
 | independent-review | One authorized fresh Herdr reviewer after materially risky implementation, bounded fixes/rechecks; Cloudflare guidance, not full audit |
 | observability | Separate advisory companion alongside every lifecycle implementation review; incident diagnosis, pkg-logging/Sentry/LGTM coverage, optional Monoscope and evidence-based capacity advice |
 
-Exploration permits scoped scratch sketches and safe local experiments without repeated questions, never implicit production edits, dependencies, external writes or delegation. Required implementation review and bounded delegation use standing global authority; no recursive reviewer. Lifecycle parent also launches a separate advisory observability agent against the same snapshot; its findings or unavailability do not block delivery. Missing independent reviewer blocks completion unless user explicitly waives gate. Native generative UI is optional and local-interaction-only; accepted decisions return to canonical spec.
+Exploration permits scoped scratch sketches and safe local experiments without repeated questions, never implicit production edits, dependencies, external writes or delegation. Required implementation review and bounded delegation use standing global authority; no recursive reviewer. Lifecycle parent also launches a separate advisory observability agent against the same snapshot; its findings or unavailability do not block delivery. Missing independent reviewer blocks completion unless user explicitly waives gate. Visual and teach use local Markdown/SVG/Mermaid in installed Visualizer; accepted decisions return to canonical spec. Use `/visual`, `/visual plan ...`, `/visual recap ...` or `/teach`. Former visual-plan, visual-recap and implementation-plan skills/commands are removed.
 
 Adapted skills retain MIT license/provenance from pstack commit ae5650febf4320793844c12c4adaa937f417f8da. No upstream plugin, Cursor tool/model dependencies or automatic review panels installed.
 

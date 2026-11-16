@@ -1,19 +1,20 @@
 // Run: node bin/visual-skills-check.mjs
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
-
-for (const name of ['visual-plan', 'visual-recap']) {
-  const root = new URL(`../${name}/`, import.meta.url);
-  const entry = readFileSync(new URL('SKILL.md', root), 'utf8');
-  assert(entry.startsWith(`---\nname: ${name}\n`));
-  for (const rule of ['disable-model-invocation: true', 'spec.md']) assert(entry.includes(rule), `${name}: missing ${rule}`);
-  const rules = name === 'visual-plan'
-    ? ['shared Visualizer delivery rules', 'Work directly', 'No MDX', 'package install or delegation', 'App launch success is not rendering proof']
-    : ['explicit bounded Herdr authorization', 'No automatic package installation', 'No hosted plan writes', 'local-files mode as selected', 'hosted JavaScript', '.scratch/<task>'];
-  for (const rule of rules) assert(entry.includes(rule), `${name}: missing ${rule}`);
-  for (const file of ['LICENSE', 'UPSTREAM.md', 'UPSTREAM-SKILL.md', 'references/local-files.md', 'references/connection.md', 'references/wireframe.md']) {
-    assert(existsSync(new URL(file, root)), `${name}: missing ${file}`);
-  }
-  assert(readFileSync(new URL('UPSTREAM.md', root), 'utf8').includes('f4f10b8d513476c24bd995ceac5294bcdd6ee15c'));
+const read = path => readFileSync(new URL(`../${path}`, import.meta.url), 'utf8');
+const visual = read('visual/SKILL.md');
+assert.match(visual, /^name: visual$/m);
+assert.match(visual, /^disable-model-invocation: true$/m);
+for (const rule of ['shared Visualizer delivery rules', '**Explain:**', '**Plan:**', '**Recap:**', 'No MDX', 'No automatic agents', 'App launch success is not rendering proof', 'spec.md']) assert.ok(visual.includes(rule), rule);
+const teach = read('teach/SKILL.md');
+assert.ok(teach.includes('../visual/references/visualizer.md'));
+assert.ok(teach.includes('Teach owns explanation structure; visual owns rendering'));
+const delivery = read('visual/references/visualizer.md');
+for (const rule of ['Visualizer.app', 'CFBundleName=Visualizer', 'open -n -a', '--args', '256 KiB', '## Local PNG screenshots and galleries', '## Diagram colors by default', 'without color', 'subgraph legend ["Legend"]']) assert.ok(delivery.includes(rule), rule);
+const manifest = JSON.parse(read('package.json'));
+assert.ok(manifest.pi.skills.includes('./visual'));
+for (const name of ['visual-plan', 'visual-recap', 'implementation-plan']) {
+  assert.ok(!existsSync(new URL(`../${name}/SKILL.md`, import.meta.url)), `retired skill: ${name}`);
+  assert.ok(!manifest.pi.skills.includes(`./${name}`));
 }
-console.log('Visual skill entry points, guardrails, references, and provenance: OK');
+console.log('Unified visual/teach routing, renderer boundaries and retired entrypoints: PASS');

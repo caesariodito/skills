@@ -24,7 +24,7 @@ Follow one synthetic example through relevant phases. Keep names and values cons
 
 ## Native visualization
 
-Explicit `/teach` or `/skill:teach` invocation writes a grounded Markdown/Mermaid explanation and opens installed Visualizer by default, unless user requests text only. Work directly; no visualization child session. Read [shared Visualizer delivery rules](references/visualizer.md) fully and follow artifact, compatibility, launch and verification boundaries. Automatic skill selection may stay in chat; do not open GUI without requested visualization or prior approval.
+Explicit `/teach` or `/skill:teach` invocation writes a grounded Markdown/Mermaid explanation and opens installed Visualizer by default, unless user requests text only. Work directly; no visualization child session. Read [visual](../visual/SKILL.md) and its [shared Visualizer delivery rules](../visual/references/visualizer.md) fully; use the same artifact, compatibility, launch and verification boundaries. Teach owns explanation structure; visual owns rendering. Do not invoke another agent or create a second document. Automatic skill selection may stay in chat; do not open GUI without requested visualization or prior approval.
 
 For proposed architectures, use [architect](../architect/SKILL.md). Visualization is working explanation, not canonical authority; accepted decisions go into lifecycle spec, and durable visual artifacts are optional derived views.
 

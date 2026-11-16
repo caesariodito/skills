@@ -69,7 +69,7 @@ for (const path of ['arena/SKILL.md', 'independent-review/SKILL.md']) {
   assert.doesNotMatch(text, /require HERDR_ENV=1|Require HERDR_ENV=1/);
 }
 assert.match(read('teach/SKILL.md'), /Work directly; no visualization child session/);
-assert.match(read('teach/SKILL.md'), /references\/visualizer\.md/);
+assert.ok(read('teach/SKILL.md').includes('../visual/references/visualizer.md'));
 if (process.env.HERDR_SKILL_DIR) {
   const skill = readFileSync(resolve(process.env.HERDR_SKILL_DIR, 'SKILL.md'), 'utf8');
   const core = readFileSync(resolve(process.env.HERDR_SKILL_DIR, 'references/core.md'), 'utf8');
