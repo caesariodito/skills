@@ -4,7 +4,7 @@ import { resolve, dirname, basename } from 'node:path';
 const root = resolve(import.meta.dirname, '..');
 const read = path => readFileSync(resolve(root, path), 'utf8');
 const manifest = JSON.parse(read('package.json'));
-const required = ['unslop', 'teach', 'architect', 'arena', 'independent-review', 'engineering-lifecycle', 'grill-me', 'handoff'];
+const required = ['unslop', 'teach', 'architect', 'arena', 'independent-review', 'engineering-lifecycle', 'grill-me', 'handoff', 'observability'];
 for (const name of required) assert.ok(manifest.pi.skills.includes(`./${name}`), name);
 const checked = new Set();
 function checkLinks(path) {
@@ -54,6 +54,12 @@ for (const [first, next] of [['| Explore |', '| Specify |'], ['| Build and verif
 }
 assert.match(lifecycle, /Required reviewer spawning has standing global authorization/);
 assert.match(lifecycle, /Reviewer role itself never triggers another reviewer/);
+const observability = read('observability/SKILL.md');
+for (const phrase of ['advisory only', 'same exact baseline/head', 'No recursive agents', 'at most two targeted rechecks', 'source only', 'never independently block delivery or commit', 'CPU', 'RSS/heap/GC', 'never unbounded labels', 'server provisioning', 'Not applicable']) assert.ok(observability.includes(phrase), `observability: ${phrase}`);
+for (const phrase of ['## Advisory observability companion', 'in parallel with separate worktrees', 'neither child spawns the other', 'Findings are advisory only', 'report unavailable coverage', 'standalone independent-review requests outside lifecycle']) assert.ok(lifecycle.includes(phrase), `lifecycle: ${phrase}`);
+const stack = read('observability/references/stack.md');
+checkLinks('observability/references/stack.md');
+for (const phrase of ['650534002418acfc8d669ff240c6b98dbafd611a', 'github.com/deccara-tech/pkg-logging', 'Logs**, not Issues', 'does not create native OTel parents', 'Loki', 'Tempo', 'Mimir', 'Monoscope (optional)', 'Pyroscope (optional', 'fail-closed', 'top-level field keys only']) assert.ok(stack.includes(phrase), `stack: ${phrase}`);
 const review = read('independent-review/SKILL.md');
 for (const phrase of ['guidance mode','Herdr worktree separation is not sandbox','at most two','explicit waiver','read-only','Needs validation']) assert.ok(review.includes(phrase), phrase);
 for (const name of ['Intent','Security','Simplicity','Sufficiency','Project direction']) assert.ok(review.includes(`| ${name} |`));

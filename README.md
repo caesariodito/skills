@@ -46,9 +46,10 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 | architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
 | teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |
 | engineering-lifecycle | Canonical decisions/approval, implementation verification and completion gates |
-| independent-review | One authorized fresh Herdr reviewer after consequential implementation, bounded fixes/rechecks; Cloudflare guidance, not full audit |
+| independent-review | One authorized fresh Herdr reviewer after materially risky implementation, bounded fixes/rechecks; Cloudflare guidance, not full audit |
+| observability | Separate advisory companion alongside every lifecycle implementation review; incident diagnosis, pkg-logging/Sentry/LGTM coverage, optional Monoscope and evidence-based capacity advice |
 
-Exploration permits scoped scratch sketches and safe local experiments without repeated questions, never implicit production edits, dependencies, external writes or delegation. Required review needs explicit task grant; no recursive reviewer. Missing independent reviewer blocks completion unless user explicitly waives gate. Native generative UI is optional and local-interaction-only; accepted decisions return to canonical spec.
+Exploration permits scoped scratch sketches and safe local experiments without repeated questions, never implicit production edits, dependencies, external writes or delegation. Required implementation review and bounded delegation use standing global authority; no recursive reviewer. Lifecycle parent also launches a separate advisory observability agent against the same snapshot; its findings or unavailability do not block delivery. Missing independent reviewer blocks completion unless user explicitly waives gate. Native generative UI is optional and local-interaction-only; accepted decisions return to canonical spec.
 
 Adapted skills retain MIT license/provenance from pstack commit ae5650febf4320793844c12c4adaa937f417f8da. No upstream plugin, Cursor tool/model dependencies or automatic review panels installed.
 
