@@ -1,6 +1,6 @@
 ---
 name: project-init
-description: Inspect a repository and draft concise repository-local AGENTS.md guidance. Use when a Git repository lacks local agent instructions, when onboarding a codebase, or when the user asks to initialize project guidance or engineering conventions.
+description: Inspect a repository, draft concise repository-local AGENTS.md guidance and, on explicit request, connect it to host-configured Beads tracking. Use when a Git repository lacks local agent instructions, when onboarding a codebase, or when the user asks to initialize project guidance, engineering conventions or Beads issue tracking.
 ---
 
 # Project initialization
@@ -63,7 +63,7 @@ Draft rules:
 - Link a deeper document only when a clear trigger tells the agent when to read it.
 - Preserve human editability; no generated markers or required generator.
 - For a verified existing Beads connection, add a short issue-tracking section: load beads skill, run `bd prime`, reuse/claim durable issues, record verification before close, and use `bd remember` only for verified project facts. Keep Pi todo for session steps. Respect existing tracker policy; resolve conflicts rather than declaring two sources of truth.
-- Do not put machine-specific endpoints, credentials or absolute workspace symlinks in portable repository guidance. Do not initialize Beads, create a DB, alter hooks or enroll other repositories as part of guidance generation. Existing AGENTS.md updates require explicit improvement scope; do not bulk-edit sibling projects.
+- Do not put machine-specific endpoints, credentials or absolute workspace symlinks in portable repository guidance. Guidance generation alone never initializes Beads, creates a DB, alters hooks or enrolls repositories; use Beads enrollment below only when requested. Existing AGENTS.md updates require explicit improvement scope; do not bulk-edit sibling projects.
 
 Complete when draft is concise, evidence-backed, and contains no speculative architecture.
 
@@ -81,3 +81,15 @@ Complete when the missing file and evidence-backed rules are established.
 4. Report file path, rules added, evidence used, checks run, and any unresolved uncertainty.
 
 Complete when file exists, references valid repository facts, and verification has no unresolved error.
+
+## Optional: connect Beads
+
+Run only when user explicitly requests Beads setup/connection for this repository; that request authorizes one project DB and local pointer, not other repositories. Unconnected projects otherwise stay unenrolled.
+
+1. Read trusted host guidance for Beads server, client, credential location and enrollment tool. No host-owned tool means report blocker; do not improvise server writes or run raw `bd init`.
+2. Enroll original checkout, never linked worktree. Existing `.beads`, conflicting inventory, populated DB without local workspace, identity mismatch or migration prompt is a blocker: inspect and report; never overwrite, reinitialize or bypass identity checks.
+3. Run host tool dry run first. Confirm repository path, project prefix and DB name are unique and match host naming. Then apply for exactly that repository. One enrollment at a time; no concurrent init or migration.
+4. Verify `bd ready --json` from repository root, Git status unchanged and `.beads` locally ignored. Do not print credentials. Do not change tracked files, hooks or other projects.
+5. Report project prefix, database, local pointer, backup impact and any host follow-up, such as private UI pins. Then load beads skill for task tracking; add repository guidance section only under rules above.
+
+Complete when connected repository passes verification, or blocker reported with no partial state hidden.
