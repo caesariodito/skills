@@ -42,6 +42,8 @@ const grill = read('grill-me/SKILL.md');
 for (const phrase of ['ask_user_question', '1–4', '2–4', 'Do not stack', 'read-only', 'No sub-agent dispatch', 'No files by default', 'materially risky']) assert.ok(grill.includes(phrase), phrase);
 const handoff = read('handoff/SKILL.md');
 for (const phrase of ['temporary directory', 'unique file', 'restrictive permissions', 'Redact secrets', 'suggested skills', 'grants no new authority']) assert.ok(handoff.includes(phrase), phrase);
+const cleanup = read('cleanup/SKILL.md');
+for (const phrase of ['disable-model-invocation: true', 'exact item list', 'without `--force`', 'Never use `rm`', 'remote branches']) assert.ok(cleanup.includes(phrase), phrase);
 const lifecycle = read('engineering-lifecycle/SKILL.md');
 function ordered(text, first, next) {
   const start = text.indexOf(first), end = text.indexOf(next);

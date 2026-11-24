@@ -43,6 +43,7 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 |---|---|
 | grill-me | Explicit, read-only decision interview using dependency-aware structured rounds; no automatic specs or implementation |
 | beads | Durable project issues, shared-DB claims and verified knowledge; conditional on existing connection, separate from Pi session todo |
+| cleanup | Explicit `/cleanup`: read-only Git inventory of one repository, then approved-only removal of merged branches, stale worktrees and stray notes; non-force Git, notes moved not deleted, remotes/stashes/tracked files untouched |
 | handoff | Explicit portable session brief in a private temporary file; preserves evidence and approval boundaries, launches no agents |
 | architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
 | teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |
@@ -72,6 +73,7 @@ node bin/skills-sync.test.mjs
 node --test implementation-review/scripts/preview.test.mjs security-audit/*.test.cjs
 python3 implementation-review/scripts/smoke_test.py
 python3 technical-spec/scripts/smoke_test.py
+python3 cleanup/scripts/inventory.test.py
 bash -n bin/skills-sync
 git diff --check
 ```

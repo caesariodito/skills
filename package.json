@@ -6,7 +6,7 @@
   "pi": {
     "skills": [
       "./9router", "./9router-web-fetch", "./9router-web-search",
-      "./anti-slop-init", "./architect", "./arena", "./beads", "./decision-sheet", "./emil-design-eng",
+      "./anti-slop-init", "./architect", "./arena", "./beads", "./cleanup", "./decision-sheet", "./emil-design-eng",
       "./engineering-lifecycle", "./grill-me", "./handoff", "./herdr-startup", "./html-test-cases", "./implementation-review",
       "./independent-review", "./long-running-mode", "./observability", "./project-init", "./security-audit", "./server-operations",
       "./teach", "./technical-spec", "./unslop", "./visual"
