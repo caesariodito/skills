@@ -42,6 +42,7 @@ References use skill-relative paths. `<skill-dir>` means directory containing SK
 | Skill | Owns |
 |---|---|
 | grill-me | Explicit, read-only decision interview using dependency-aware structured rounds; no automatic specs or implementation |
+| beads | Durable project issues, shared-DB claims and verified knowledge; conditional on existing connection, separate from Pi session todo |
 | handoff | Explicit portable session brief in a private temporary file; preserves evidence and approval boundaries, launches no agents |
 | architect / arena | Usage/data/ownership-first design and meaningful alternatives before spec; optional explicitly authorized Herdr candidates |
 | teach / unslop | Progressive human understanding and concrete prose, preserving evidence and user tone |

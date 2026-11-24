@@ -27,6 +27,7 @@ Inspect only files needed to establish:
 - CI checks and release constraints
 - formatter, linter, compiler, and package-manager configuration
 - generated files, vendored code, secrets, deployment state, or destructive operations needing protection
+- existing issue tracker evidence: `.beads` directory/symlink/redirect, tracked instructions and host-owned workspace mappings; inspect connection keys without reading or printing credentials. Beads installation alone does not prove project enrollment.
 
 Use manifests, lockfiles, scripts, CI, config, and code as sources of truth. Do not copy values that remain easy to discover unless naming them prevents a common mistake.
 
@@ -61,6 +62,8 @@ Draft rules:
 - Avoid restating dependency versions, scripts, or settings already obvious from nearby files.
 - Link a deeper document only when a clear trigger tells the agent when to read it.
 - Preserve human editability; no generated markers or required generator.
+- For a verified existing Beads connection, add a short issue-tracking section: load beads skill, run `bd prime`, reuse/claim durable issues, record verification before close, and use `bd remember` only for verified project facts. Keep Pi todo for session steps. Respect existing tracker policy; resolve conflicts rather than declaring two sources of truth.
+- Do not put machine-specific endpoints, credentials or absolute workspace symlinks in portable repository guidance. Do not initialize Beads, create a DB, alter hooks or enroll other repositories as part of guidance generation. Existing AGENTS.md updates require explicit improvement scope; do not bulk-edit sibling projects.
 
 Complete when draft is concise, evidence-backed, and contains no speculative architecture.
 
