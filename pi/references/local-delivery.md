@@ -9,7 +9,7 @@ Default for every approved repository implementation task, including routine fix
 - Use repository worktree-location convention, otherwise `${XDG_DATA_HOME:-$HOME/.local/share}/pi-worktrees/<repo-name>/<branch-slug>`. Verify path unused, branch/base correct, clean status and matching Git common directory. Repository-name collisions need a unique directory suffix.
 - An existing worktree may be reused only when verified as exclusively assigned to this same task and its branch/base/changes are known. Never switch another checkout's branch or take over another task's worktree.
 - Preserve existing dirty work and index exactly. Worktrees do not inherit dirt. If task needs uncommitted changes, unclear base or unclear ownership, ask for the precise inclusion/base decision before continuing; never silently stash, copy, discard or commit them. Unrelated dirt does not block a task that can start from the verified commit.
-- Run every edit/check/Git command against the task worktree explicitly. Delegated agents still need separate worktrees and explicit bounded authorization; reviewers remain read-only.
+- Run every edit/check/Git command against the task worktree explicitly. Delegated agents still need separate worktrees and a recorded bounded scope/budget under standing delegation authority; reviewers remain read-only.
 - Non-Git targets need an explicit alternative; never auto-initialize a repository. Creating a branch/worktree is not permission to expand implementation scope.
 
 ## Finish
