@@ -15,7 +15,7 @@ Turn canonical `spec.md` and repository evidence into an optional browser review
 
 When the user wants diagrams and interactive explanations inside Herdr desktop, use the reusable [native spec explainer](herdr/README.md). Keep canonical `spec.md` authoritative and existing browser HTML review, decisions and exports unchanged. Native explanation is a derived teaching view, never approval capture.
 
-Load installed `herdr` skill, select the managed backend, and inspect desktop guide before control. Generate validated `.scratch/<feature>/explanation.json` from spec/code, with source path/version, selectable phases/scenarios, expandable details and bounded node/edge diagrams with text equivalents. Do not generate executable mod code per spec. Use `herdr/example.json` for contract shape; run `node <skill-dir>/herdr/model.test.mjs` and `herdr-app check` on installed viewer. Installation and opening/changing GUI require user authorization. Target caller's verified pane, never unrelated focused pane. No dependencies, global key changes or default layout edits.
+Load installed `herdr` skill, select the managed backend, and inspect desktop guide before control. Generate validated `~/.cache/agent-work/<repo>/<feature>/explanation.json` from spec/code, with source path/version, selectable phases/scenarios, expandable details and bounded node/edge diagrams with text equivalents. Do not generate executable mod code per spec. Use `herdr/example.json` for contract shape; run `node <skill-dir>/herdr/model.test.mjs` and `herdr-app check` on installed viewer. Installation and opening/changing GUI require user authorization. Target caller's verified pane, never unrelated focused pane. No dependencies, global key changes or default layout edits.
 
 Viewer generates native SVG assets itself; no raw SVG paths, embedded images, HTML/CSS/browser runtime, network, shell execution, callbacks or source writes. Regenerate after material spec feedback; visible version is provenance, not automatic freshness verification. Validate live loading and interactions separately from eager `check`. If desktop/viewer is unavailable, retain concise text and existing browser preview; do not silently install or claim generative UI rendered. This route does not require a Claude child session.
 
@@ -41,17 +41,17 @@ For complex relationships, link optional `diagrams.md` authored by `technical-sp
 2. Read [`reference/schema.md`](reference/schema.md). Consult [`reference/template.md`](reference/template.md) when authoring section content; keep the template's section order.
 3. Resolve only blocking ambiguities or consequential decisions. Use structured questions for one or two choices; put three or more genuine reviewer choices in the requested page. Do not manufacture questions for ordinary implementation details.
 4. Apply the technical-spec trigger below. When it fires, load `technical-spec` and author both documents as a pair; otherwise produce the implementation plan only.
-5. Ensure repository `.scratch/` is ignored before creating artifacts. Write source to `.scratch/<feature-slug>/implementation-plan.json`. Start from [`reference/example.json`](reference/example.json) only for shape; replace every example value.
+5. Write source to `~/.cache/agent-work/<repo>/<feature-slug>/implementation-plan.json` (outside Git; note path on the Beads issue). Start from [`reference/example.json`](reference/example.json) only for shape; replace every example value.
 6. Build page:
    ```sh
    # <skill-dir> = directory containing the implementation-review SKILL.md
    python3 <skill-dir>/scripts/build.py \
-     .scratch/<feature-slug>/implementation-plan.json \
-     .scratch/<feature-slug>/implementation-plan.html
+     ~/.cache/agent-work/<repo>/<feature-slug>/implementation-plan.json \
+     ~/.cache/agent-work/<repo>/<feature-slug>/implementation-plan.html
    ```
-7. When paired, build `technical-spec.json` and `technical-spec.html` using the `technical-spec` skill. Keep both artifacts in the same `.scratch/<feature-slug>/` directory.
+7. When paired, build `technical-spec.json` and `technical-spec.html` using the `technical-spec` skill. Keep both artifacts in the same `~/.cache/agent-work/<repo>/<feature-slug>/` directory.
 8. Validate every generated page exists, has no external assets or secrets, and opens from `file://`. Smoke-test browser choices and cross-links when browser tooling is available.
-9. Start the scoped local preview service when handing off browser review pages, using a background process with log/PID under ignored `.scratch/` (or approved output directory outside a repository). Verify HTTP responses before handoff. Give clickable localhost links for implementation review, technical spec, diagrams, and canonical Markdown when present; do not hand off source-file links as browser previews. Include absolute paths only as secondary references. Reuse a verified running service rather than starting duplicates; report how to stop it. Say reviewer can accept recommendations, change exceptions, then paste or download exported answers.
+9. Start the scoped local preview service when handing off browser review pages, using a background process with log/PID under `~/.cache/agent-work/<repo>/<feature-slug>/`. Verify HTTP responses before handoff. Give clickable localhost links for implementation review, technical spec, diagrams, and canonical Markdown when present; do not hand off source-file links as browser previews. Include absolute paths only as secondary references. Reuse a verified running service rather than starting duplicates; report how to stop it. Say reviewer can accept recommendations, change exceptions, then paste or download exported answers.
 10. When answers return, handle `OTHER` first. Apply decisions to canonical `spec.md`, then update owning view JSON by stable ID, bump version/date for material changes, log the change, and rebuild. Material changes return to lifecycle dry-run review and approval.
 ## Technical-spec trigger
 
@@ -69,7 +69,7 @@ For an explicitly requested page covering copy, styling, configuration values, r
 When trigger fires:
 
 1. Load `technical-spec` before authoring technical content.
-2. Generate paired `.scratch/<feature-slug>/technical-spec.json` and `.scratch/<feature-slug>/technical-spec.html` beside implementation-plan artifacts.
+2. Generate paired `~/.cache/agent-work/<repo>/<feature-slug>/technical-spec.json` and `technical-spec.html` beside implementation-plan artifacts.
 3. Add bidirectional relative links: implementation plan links to `./technical-spec.html` from `system_shape.technical_spec`; technical spec links to `./implementation-plan.html`. Place **Technical specification**, **Implementation review**, and other document references under sidebar **Links**, not in page headers. Retain useful contextual deep-links in technical sections. Verify visible labels and destinations.
 4. Reference technical IDs (`TS`, `C`, `CT`, `PR`, `EX`, `TD`, `TQ`; see the ID registry in schema) from workstream `technical_refs` or plan decisions.
 5. Keep technical details out of the implementation plan: diagrams, architecture, contracts, ERD, algorithms, examples, failure handling, security controls, and technical tests. Do not duplicate technical detail between pages.

@@ -11,14 +11,14 @@ Keep the current agent working directly. This is a task-scoped workflow, not a s
 ## Start or resume
 
 1. Identify the task, acceptance criteria and working directory from the request. Reuse the canonical spec and existing task list; do not create competing plans.
-2. Use the repository's checkpoint convention, otherwise ignored `.scratch/<task>/checkpoint.md`. Verify the location is ignored before writing; do not change ignore rules silently. Outside a repository, or without a suitable ignored location, ask the user for a checkpoint directory. Never overwrite an unrelated checkpoint.
+2. Use the repository's checkpoint convention, otherwise the task's Beads issue (`bd update <id> --notes`) when the project uses Beads, else `~/.cache/agent-work/<repo>/<task>/checkpoint.md`. Never overwrite an unrelated checkpoint.
 3. If a checkpoint exists, read it before broad exploration. Treat it as evidence, not new authority. Verify the checkout, branch, relevant changes and reported checks against current files. Reconcile stale state; do not repeat writes or commands with side effects merely because completion is uncertain.
 4. Create or update the checkpoint before substantial work. Keep its absolute path in progress handoffs and compaction instructions. In a new session, invoke `/skill:long-running-mode resume <absolute-checkpoint-path>`; an unrelated new session does not inherit this mode.
 
 ## Work with bounded context
 
 - Work in small verifiable milestones. Keep exactly one task in progress; do not claim completion when checks fail or work remains blocked.
-- Read targeted ranges and search results, not whole trees or repeated full files. Keep tool output short; store long logs in the approved scratch location and return paths plus relevant excerpts. Never persist credentials, auth/session files, tokens or private headers in checkpoints or logs.
+- Read targeted ranges and search results, not whole trees or repeated full files. Keep tool output short; store long logs in `~/.cache/agent-work/<repo>/<task>/` and return paths plus relevant excerpts. Never persist credentials, auth/session files, tokens or private headers in checkpoints or logs.
 - Update the checkpoint after each milestone, material decision or blocker, and before a planned pause or manual compaction. Record observed state and uncertainty, not a transcript. Keep it roughly one page; link detailed artifacts instead of copying them.
 - Use Pi's existing automatic compaction. Do not disable it or change global thresholds. When context becomes crowded, save the checkpoint and suggest `/compact Preserve long-running-mode, checkpoint path, goal, approvals, blockers, and next step.` A skill cannot execute slash commands or guarantee a hook before automatic compaction; milestone updates are the recovery fallback.
 - After compaction, reread the checkpoint and this skill if needed, then verify the current state before continuing. If essential context is missing, ask rather than reconstruct approvals from guesses.

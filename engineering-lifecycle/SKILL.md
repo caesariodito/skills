@@ -23,7 +23,7 @@ One workflow authority. Routine scoped work uses direct implementation and focus
 
 ## Exploration authority
 
-Within approved problem scope, inspect/research, sketch usage/data models, revise hypotheses, create disposable prototypes in ignored .scratch/<task>/ and run safe local checks with installed tools. Use isolated synthetic data/ports, no shared services or unrelated private state. No approval needed for each bounded exploratory step. Outside repository ask for output directory. Do not impose a full spec before learning enough to choose.
+Within approved problem scope, inspect/research, sketch usage/data models, revise hypotheses, create disposable prototypes in `~/.cache/agent-work/<repo>/<task>/` and run safe local checks with installed tools. Use isolated synthetic data/ports, no shared services or unrelated private state. No approval needed for each bounded exploratory step. Do not impose a full spec before learning enough to choose.
 
 Exploration does not authorize production edits, dependency installation, external writes, publishing, deployment, exposure/auth changes, destructive operations or unsafe code execution. Herdr candidates use standing global delegation authority with fixed scope/count/budget and stop conditions; honor user limits and never spawn recursively. Actual security checks retain all upstream sandbox requirements. Ask when experiment crosses these boundaries.
 

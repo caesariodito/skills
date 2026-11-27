@@ -5,7 +5,7 @@ Shared delivery rules for visual and teach. Visual owns rendering; teach owns pr
 ## Files and authority
 
 - Inspect real source and repository instructions. Keep facts, assumptions, proposals and unanswered questions distinct. Never include credentials or private runtime/session data.
-- Inside a repository use `.scratch/<task>/<kind>.md` (visual or teach; choose descriptive document name for plans/recaps). Verify chosen path is ignored using `git check-ignore` before writing. If not ignored, ask before changing ignore rules or choose an approved ignored directory. Outside a repository ask for output directory.
+- Use `~/.cache/agent-work/<repo>/<task>/<kind>.md` (visual or teach; choose descriptive document name for plans/recaps). Never write inside the repository.
 - Write ordinary UTF-8 Markdown, at most 256 KiB. For polished diagrams, author local SVG alongside Markdown and embed as standalone `![Description](diagram.svg)` paragraphs. Bounded local PNG screenshots are allowed using standard Markdown images; see PNG rules below. No MDX, JSX, HTML, custom schema or remote images. No package downloads, servers, browser, hosted preview or Claude child session.
 - Canonical decisions remain in repository `spec.md` where applicable. Derived documents identify canonical/source paths and inspected revision or uncommitted state as plain text. Update canonical spec first after approved decision changes, then refresh derived document. Do not invent a canonical spec requirement for ordinary teaching or routine work.
 - Never overwrite unrelated documents. Keep same artifact path during requested revisions so selected file reloads. Feedback and approvals stay in chat; viewer is read-only.

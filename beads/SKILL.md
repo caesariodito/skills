@@ -36,6 +36,8 @@ bd close <id> --actor <stable-session-actor> --reason "Verified outcome; checks 
 
 Choose one non-secret, session-unique actor and use it consistently for claims and closes. Claim is transactional only among clients sharing the same live DB; offline replicas do not give global exclusivity. Respect active owners and leases. If claim expires or ownership changes, inspect state and stop conflicting work; never force-claim or force-close to bypass another agent. Use installed `bd update --help` for lease/heartbeat options before long-running work; avoid invented flags or polling loops.
 
+Issue is the only home for task tracking: put spec/plan text in `--design`, checkpoints in `--notes`, decisions, review findings and handoffs in comments. No Markdown plans, checkpoints or tickets in the repository or `.scratch/`. Large generated files (HTML, screenshots, logs, worktrees) go in `~/.cache/agent-work/<repo>/<task>/`; reference that path on the issue, treat it as disposable.
+
 Keep issue current at meaningful milestones. Record checks, unresolved limits, branch/commit and exact next action before handoff. Close only when requested outcome and required verification/review are complete. Local-delivery policy still owns Git actions; closing an issue never grants push, merge or cleanup authority.
 
 ## Project knowledge

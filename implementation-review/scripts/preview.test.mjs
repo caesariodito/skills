@@ -2,10 +2,11 @@
 import assert from 'node:assert/strict';
 import { mkdir, mkdtemp, writeFile, symlink, rm, access } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { tmpdir } from 'node:os';
 import { request } from 'node:http';
 import { startPreview, diagramAllowed } from './preview.mjs';
 
-const scratch = resolve(import.meta.dirname, '../../../.scratch/review-preview');
+const scratch = resolve(tmpdir(), 'review-preview');
 await mkdir(scratch, { recursive: true });
 const directory = await mkdtemp(resolve(scratch, 'test-'));
 const root = resolve(directory, 'docs');

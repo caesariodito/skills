@@ -18,14 +18,14 @@ herdr-app ls
 Locate the caller's terminal in `ls` using `HC_TERMINAL_ID`; use its actual pane ID, not the focused pane. Opening UI changes focus: do it only when requested.
 
 ```sh
-herdr-app do pane.split '{"pane":"<verified-caller-pane>","direction":"right","mod":"spec-explainer","props":{"file":"/absolute/repo/.scratch/feature/explanation.json"}}'
+herdr-app do pane.split '{"pane":"<verified-caller-pane>","direction":"right","mod":"spec-explainer","props":{"file":"/Users/<you>/.cache/agent-work/<repo>/<feature>/explanation.json"}}'
 ```
 
 If caller tab is not shown, select its verified tab explicitly before presenting view; never switch an unrelated tab. Keep returned pane ID for subsequent targeting. Closing that mod pane does not close adjacent agent terminal. No automatic cleanup.
 
 ## Author explanation
 
-Use `example.json` for shape, not content. Write `.scratch/<feature>/explanation.json` only after verifying ignore rules. Explain real spec/code; label assumptions. Set `spec` to authoritative source path and `source_version` to exact source revision/version or a clearly labeled working draft. Refresh explanation after material feedback; viewer does not verify source freshness automatically.
+Use `example.json` for shape, not content. Write `~/.cache/agent-work/<repo>/<feature>/explanation.json`. Explain real spec/code; label assumptions. Set `spec` to authoritative source path and `source_version` to exact source revision/version or a clearly labeled working draft. Refresh explanation after material feedback; viewer does not verify source freshness automatically.
 
 Contract v1:
 
@@ -62,6 +62,6 @@ Click pane to focus. Up/Down select phase; Left/Right select scenario; D toggles
 
 JSON polls every 3 seconds while copy exists, even hidden. No overlapping reloads. Invalid/missing JSON preserves last valid view and shows error; valid refresh retains IDs or selects first remaining item. Diagram-cache write failure shows text instead. Source/version stay visible. Manual Refresh retries cache generation too.
 
-`herdr-app check` checks initial render only. Test live data loading, scenario keys/clicks, details, narrow pane, invalid JSON/recovery, source path and visible diagram. Capture app screenshot only in this feature's ignored scratch. Do not claim keyboard/visual checks passed without evidence.
+`herdr-app check` checks initial render only. Test live data loading, scenario keys/clicks, details, narrow pane, invalid JSON/recovery, source path and visible diagram. Capture app screenshot only in `~/.cache/agent-work/<repo>/<feature>/`. Do not claim keyboard/visual checks passed without evidence.
 
 Cache is app-owned generated output in a unique per-copy directory, with at most 800 current section/scenario images. Removed IDs, hot reloads and closed copies may leave cache entries; remove only after confirming no live pane needs them. No automatic deletion. Add lifecycle cleanup if observed disk use warrants it.

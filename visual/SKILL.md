@@ -21,6 +21,6 @@ Use concise Markdown, authored local SVG for precise/polished diagrams, Mermaid 
 
 ## Boundaries and handoff
 
-Write only requested derived artifacts under ignored `.scratch/<task>/`; outside repository resolve output directory first. Preserve source authority, privacy and existing approval gates. No MDX, HTML, JSON block catalog, Plan MCP, hosted writes, local bridge, preview server, browser, dependency installation or source mutation. No automatic agents. Feedback stays in chat, not viewer interactions.
+Write only requested derived artifacts under `~/.cache/agent-work/<repo>/<task>/`. Preserve source authority, privacy and existing approval gates. No MDX, HTML, JSON block catalog, Plan MCP, hosted writes, local bridge, preview server, browser, dependency installation or source mutation. No automatic agents. Feedback stays in chat, not viewer interactions.
 
 Keep artifact path stable during revisions. Return path, concise text equivalent, source baseline, actual checks and unrun native validation. App launch success is not rendering proof. If app unavailable, retain Markdown and report limitation; no renderer substitution or installation without approval. Former visual-plan, visual-recap and implementation-plan workflows are consolidated here; use `/visual plan ...`, `/visual recap ...` or `/visual ...`, not separate skills.

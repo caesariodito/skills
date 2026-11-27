@@ -34,13 +34,13 @@ Engine uses locally pinned Mermaid, never CDN. Setup when missing: `npm ci --ign
 1. Inspect project instructions, relevant code, API/schema docs, runtime config, deployment files, tests, and linked implementation plan. Mark unsupported claims as assumptions.
 2. Read [`reference/schema.md`](reference/schema.md) and [`reference/template.md`](reference/template.md). Preserve fixed section order.
 3. Resolve only blocking ambiguities or consequential choices. Use structured questions for one or two choices; put three or more genuine technical choices in the requested page.
-4. Ensure `.scratch/` is ignored when working inside a repository. Write `.scratch/<feature>/technical-spec.json` and preserve stable IDs.
+4. Write `~/.cache/agent-work/<repo>/<feature>/technical-spec.json` and preserve stable IDs.
 5. Build:
    ```sh
    # <skill-dir> = directory containing the technical-spec SKILL.md
    python3 <skill-dir>/scripts/build.py \
-     .scratch/<feature>/technical-spec.json \
-     .scratch/<feature>/technical-spec.html
+     ~/.cache/agent-work/<repo>/<feature>/technical-spec.json \
+     ~/.cache/agent-work/<repo>/<feature>/technical-spec.html
    ```
 6. Validate page opens from `file://`, contains no external assets or secrets, and links back to implementation plan.
 7. Follow implementation-review browser handoff: start or reuse a verified scoped preview service and give clickable localhost links, including rendered diagrams and canonical spec, not just file paths. Reviewer can accept recommendations, change exceptions, then paste or download exported answers.
